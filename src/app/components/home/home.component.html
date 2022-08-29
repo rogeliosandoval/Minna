@@ -1,0 +1,53 @@
+<div class="container text-center">
+  <h1>HOME PAGE</h1>
+</div>
+
+<button *ngIf="!(fireAuth.user | async)" mat-raised-button color="primary" routerLink="/login">
+  <mat-icon>login</mat-icon>
+  <span>Login</span>
+</button>
+<br *ngIf="!(fireAuth.user | async)">
+<br *ngIf="!(fireAuth.user | async)">
+<button mat-raised-button color="primary" (click)="logout()">
+  <mat-icon>logout</mat-icon>
+  <span>Log out</span>
+</button>
+<br>
+<br>
+<button *ngIf="!(fireAuth.user | async)" mat-raised-button color="primary" routerLink="/signup">
+  <mat-icon>person_add</mat-icon>
+  <span>Sign up</span>
+</button>
+<br *ngIf="!(fireAuth.user | async)">
+<br *ngIf="!(fireAuth.user | async)">
+<!-- <button mat-raised-button color="primary" routerLink="/forgot-password">
+  <mat-icon>help_outline</mat-icon>
+  <span>Forgot password</span>
+</button>
+<br>
+<br>
+<button mat-raised-button color="primary" routerLink="/verify-email">
+  <mat-icon>help_outline</mat-icon>
+  <span>Resend email verification</span>
+</button>
+<br>
+<br> -->
+<button mat-raised-button color="primary" routerLink="/dashboard">
+  <mat-icon>dashboard</mat-icon>
+  <span>Dashboard</span>
+</button>
+<br>
+<br>
+<button mat-raised-button color="primary" routerLink="/admin-dashboard">
+  <mat-icon>admin_panel_settings</mat-icon>
+  <span>Admin Dashboard</span>
+</button>
+<br>
+<mat-card *ngIf="(fireAuth.user | async)">
+  <mat-icon>check_circle</mat-icon>
+  <span>User is logged in</span>
+</mat-card>
+<mat-card *ngIf="!(fireAuth.user | async)">
+  <mat-icon>do_not_disturb</mat-icon>
+  <span>User is not logged in</span>
+</mat-card>
