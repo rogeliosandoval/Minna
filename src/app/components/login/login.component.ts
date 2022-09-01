@@ -23,7 +23,7 @@ export class Login {
 
         this.loginForm = new FormGroup({
             'email': new FormControl('', [Validators.required, Validators.email]),
-            'password': new FormControl('', Validators.required)
+            'password': new FormControl('', [Validators.required])
         });
 
         this.firebaseErrorMessage = '';
@@ -35,13 +35,21 @@ export class Login {
         }
     }
 
+    get email() {
+        return this.loginForm.get('email');
+    }
+
+    get password() {
+        return this.loginForm.get('password');
+    }
+
     loginUser() {
         this.isProgressVisible = true;  // show the progress indicator as we start the Firebase login process
 
         if (this.loginForm.invalid)
             return;
 
-        this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password).then((result) => {
+        this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password).then((result: { isValid: boolean; message: string; } | null) => {
             this.isProgressVisible = false;  // no matter what, when the auth service returns, we hide the progress indicator
             if (result == null) {  // null is success, false means there was an error
                 console.log('logging in...');
