@@ -1,3 +1,134 @@
-h1 {
-    color: purple;
+.custom-container {
+    max-width: 1400px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.box-container {
+    position: relative;
+    margin: 0 auto;
+    min-height: 600px;
+    background-color: lemonchiffon;
+    background-image: url('../../../assets/yellow-paper.png');
+    background-size: cover;
+    box-shadow: -5px 5px 5px grey;
+}
+
+.box {
+    width: 90%;
+    height: 75%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.logo {
+    width: 100%;
+}
+
+.bodyText {
+    resize: none;
+    color: black;
+    font-size: 1.5em;
+    line-height: 1.4em;
+}
+
+.mat-icon{
+    height:30px !important;
+    width:30px !important;
+    font-size:30px !important;
+}
+
+.mat-primary {
+    background-color: white;
+    color: #000;
+}
+
+button {
+    font-size: 22px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    color: black;
+    font-size: 24px;
+    padding: 4px 20px;
+    height: 47px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    margin: 10px;
+    border-radius: 3px;
+    flex-grow: 1;
+    background:white;
+}
+
+.valid {
+    border-bottom: 2px solid green !important;
+    border-left: 2px solid green !important;
+}
+
+.invalid {
+    border-bottom: 2px solid red !important;
+    border-left: 2px solid red !important;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.form-row {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.form-panel {
+  background-color: none;
+}
+
+.error-text {
+    font-size: 16px;
+}
+
+@media (min-width: 40em) {
+    
+    .logo {
+        width:auto;
+    }
+    
+    .eye-globe {
+        max-width: 400px;
+    }
+
+    .bodyText {
+        font-size: 1.8em;
+    }
+
+    .box {
+        width: 60%;
+        height: 80%;
+        margin: auto;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        font-size: 28px;
+    }
+
+    .error-text {
+        font-size: 21px;
+    }
+    
 }

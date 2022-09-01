@@ -28,17 +28,34 @@ export class Signup {
         }
 
         this.signupForm = new FormGroup({
-            'displayName': new FormControl('', Validators.required),
+            'firstName': new FormControl('', Validators.required),
+            'lastName': new FormControl('', Validators.required),
             'email': new FormControl('', [Validators.required, Validators.email]),
             'password': new FormControl('', Validators.required)
         });
+    }
+
+    get firstName() {
+        return this.signupForm.get('firstName');
+    }
+
+    get lastName() {
+        return this.signupForm.get('lastName');
+    }
+
+    get email() {
+        return this.signupForm.get('email');
+    }
+
+    get password() {
+        return this.signupForm.get('password');
     }
 
     signup() {
         if (this.signupForm.invalid)  // if there's an error in the form, don't submit it
             return;
         this.isProgressVisible = true;
-        this.authService.signupUser(this.signupForm.value).then((result) => {
+        this.authService.signupUser(this.signupForm.value).then((result: { isValid: boolean; message: string; } | null) => {
             if (result == null)  // null is success, false means there was an error
                 this.router.navigate(['/dashboard']);
             else if (result.isValid == false)

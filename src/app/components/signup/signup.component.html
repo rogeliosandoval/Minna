@@ -1,41 +1,83 @@
-<div class="container text-center">
-    <h1>SIGNUP PAGE</h1>
-</div>
-<br>
-<br>
-<button mat-raised-button color="primary" routerLink="/home">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-</button>
-
-<mat-card class="form-card">
-    <form [formGroup]="signupForm" (ngSubmit)="signup()">
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Full Name</mat-label>
-                <input autocomplete="off" formControlName="displayName" type="text" matInput placeholder="Display Name">
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" type="email" matInput placeholder="Email">
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input autocomplete="off" formControlName="password" type="password" matInput placeholder="Password">
-            </mat-form-field>
-        </p>
-        <div *ngIf="firebaseErrorMessage != ''" class="error-style">
-            <span>{{ firebaseErrorMessage }}</span>
+<div class="custom-container">
+    <div class="row mb-4 my-lg-0">
+        <div class="col-md-6">
+            <div class="my-3">
+              <img class="logo" src="../../../assets/logo.png" alt="logo">
+            </div>
         </div>
+        <div class="col-md-6 my-auto d-flex justify-content-center">
+            <div class="mr-3">
+                <button mat-raised-button color="primary" routerLink="/home">
+                    <mat-icon>home</mat-icon>
+                    <span>Home</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="box-container">
+        <div class="box">
+            <div class="bodyText text-center mb-1">
+                This will only take a second.<br>
+                Thank you for joining!
+            </div>
+            <form [formGroup]="signupForm">
 
-        <button mat-raised-button color="primary">Signup</button>
-    </form>
-</mat-card>
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="text" name="firstName" formControlName="firstName" placeholder="First Name" [ngClass]="{'invalid' : firstName && firstName.invalid && firstName.touched, 'valid' : firstName && firstName.valid && firstName.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : firstName && firstName.invalid && firstName.touched}">
+                    Please enter a valid first name
+                </div>
 
-<div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
-    <mat-progress-spinner class=" example-margin" color="primary" mode="indeterminate"></mat-progress-spinner>
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="text" name="lastName" formControlName="lastName" placeholder="Last Name" [ngClass]="{'invalid' : lastName && lastName.invalid && lastName.touched, 'valid' : lastName && lastName.valid && lastName.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : lastName && lastName.invalid && lastName.touched}">
+                    Please enter a valid last name
+                </div>
+
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="email" name="email" formControlName="email" placeholder="Email Address" [ngClass]="{'invalid' : email && email.invalid && email.touched, 'valid' : email && email.valid && email.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : email && email.invalid && email.touched}">
+                    Please enter a valid email
+                </div>
+        
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="password" name="password" formControlName="password" placeholder="Password" [ngClass]="{'invalid' : password && password.invalid && password.touched, 'valid' : password && password.valid && password.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : password && password.invalid && password.touched}">
+                    Please enter a valid password
+                </div>
+        
+                <div class="d-flex justify-content-center mt-2" *ngIf="signupForm.invalid">
+                    <button mat-raised-button color="primary" disabled>Signup</button>
+                </div>
+                <div class="d-flex justify-content-center mt-2" *ngIf="signupForm.valid">
+                    <button (click)="signup()" mat-raised-button color="primary">Signup</button>
+                </div>
+
+            </form>
+            <div class="d-flex justify-content-center mt-2">
+                <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+                    <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bodyText text-center my-3" style="color:rgb(226, 0, 0);">
+        {{firebaseErrorMessage}}
+    </div>
 </div>
