@@ -1,6 +1,30 @@
 <div class="custom-container">
-  <div class="d-flex justify-content-left my-3">
-    <img class="logo" src="../../../assets/logo.png" alt="logo">
+  <div class="row mb-4 my-lg-0">
+    <div class="col-lg-6">
+        <div class="my-3">
+          <img class="logo" src="../../../assets/logo.png" alt="logo">
+        </div>
+    </div>
+    <div class="col-lg-6 my-auto d-flex justify-content-center">
+      <div class="mr-3" *ngIf="!(fireAuth.user | async)">
+        <button mat-raised-button color="primary" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          <span> Login</span>
+        </button>
+      </div>
+      <div class="mr-3" *ngIf="(fireAuth.user | async)">
+        <button mat-raised-button color="primary" routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </button>
+      </div>
+      <div class="mr-3" *ngIf="(fireAuth.user | async)">
+        <button mat-raised-button color="primary" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Log out</span>
+        </button>
+      </div>
+    </div>
   </div>
   <div class="box-container">
     <div class="row box">
@@ -11,23 +35,14 @@
       </div>
       <div class="col-lg-6 my-auto">
         <div class="d-flex justify-content-center">
-          <p class="text bodyText text-lg-center">
+          <p *ngIf="!(fireAuth.user | async)" class="text bodyText text-lg-center">
             We're all in this together. Consider joining a community that strives to relax your mind.
+          </p>
+          <p *ngIf="(fireAuth.user | async)" class="text bodyText text-lg-center">
+            Welcome back! We hope you're doing okay, {{ (user | async)?.firstName }}.
           </p>
         </div>
         <div class="d-flex justify-content-center">
-          <div class="mx-2">
-            <button *ngIf="(fireAuth.user | async)" mat-raised-button color="primary" (click)="logout()">
-              <mat-icon>logout</mat-icon>
-              <span>Log out</span>
-            </button>
-          </div>
-          <div class="mx-2">
-            <button *ngIf="!(fireAuth.user | async)" mat-raised-button color="primary" routerLink="/login">
-              <mat-icon>login</mat-icon>
-              <span> Login</span>
-            </button>
-          </div>
           <div class="mx-2">
             <button *ngIf="!(fireAuth.user | async)" mat-raised-button color="primary" routerLink="/signup">
               <mat-icon>person_add</mat-icon>
