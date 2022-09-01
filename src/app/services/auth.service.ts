@@ -47,8 +47,10 @@ export class AuthService {
       this.afs.doc('/users/' + emailLower)  // on a successful signup, create a document in 'users' collection with the new user's info
         .set({
           accountType: 'endUser',
-          displayName: user.displayName,
-          displayName_lower: user.displayName.toLowerCase(),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          displayName: user.firstName + " " + user.lastName,
+          displayName_lower: user.firstName.toLowerCase() + " " + user.lastName.toLowerCase(),
           email: user.email,
           email_lower: emailLower,
           isAdmin: false
