@@ -38,7 +38,7 @@
           <p *ngIf="!(fireAuth.user | async)" class="text bodyText text-lg-center">
             We're all in this together. Consider joining a community that strives to relax your mind.
           </p>
-          <p *ngIf="(fireAuth.user | async)" class="text bodyText text-lg-center">
+          <p *ngIf="(fireAuth.user | async)" class="text bodyText text-center">
             Welcome back! We hope you're doing okay, {{ (user | async)?.firstName }}.
           </p>
         </div>
