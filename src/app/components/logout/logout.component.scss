@@ -1,0 +1,124 @@
+.custom-container {
+    max-width: 1400px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.box-container {
+    position: relative;
+    margin: 0 auto;
+    min-height: 415px;
+    background-color: lemonchiffon;
+    background-image: url('../../../assets/yellow-paper.png');
+    background-size: cover;
+    box-shadow: -5px 5px 5px grey;
+}
+
+.box {
+    width: 90%;
+    height: 65%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.logo {
+    width: 100%;
+}
+
+.sleep {
+    max-width: 250px;
+}
+
+.bodyText {
+    resize: none;
+    color: black;
+    font-size: 1.5em;
+    line-height: 1.4em;
+}
+
+.mat-icon{
+    height:30px !important;
+    width:30px !important;
+    font-size:30px !important;
+}
+
+.mat-primary {
+    background-color: white;
+    color: #000;
+}
+
+button {
+    font-size: 22px;
+}
+
+input[type="email"],
+input[type="password"],
+textarea {
+    color: black;
+    font-size: 24px;
+    padding: 4px 20px;
+    height: 47px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    margin: 10px;
+    border-radius: 3px;
+    flex-grow: 1;
+    background:white;
+}
+
+.valid {
+    border-bottom: 2px solid green !important;
+    border-left: 2px solid green !important;
+}
+
+.invalid {
+    border-bottom: 2px solid red !important;
+    border-left: 2px solid red !important;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.form-row {
+  flex-direction: row;
+  display: flex;
+}
+
+.form-panel {
+  background-color: none;
+}
+
+.error-text {
+    font-size: 16px;
+}
+
+@media (min-width: 40em) {
+    
+    .logo {
+        width:auto;
+    }
+
+    .bodyText {
+        font-size: 1.8em;
+    }
+
+    .sleep {
+        max-width: 300px;
+    }
+
+    .box {
+        width: 60%;
+        height: 80%;
+        margin: auto;
+    }
+    
+}
