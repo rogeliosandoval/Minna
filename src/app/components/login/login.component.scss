@@ -62,22 +62,22 @@ textarea {
     height: 47px;
     border: none;
     outline: none;
-    border-bottom: 2px solid black;
-    border-left: 2px solid black;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.555);
+    // border-left: 3px solid black;
     margin: 10px;
     border-radius: 3px;
     flex-grow: 1;
-    background:white;
+    background:rgba(255, 255, 255, 0.52);
 }
 
 .valid {
-    border-bottom: 2px solid green !important;
-    border-left: 2px solid green !important;
+    border-bottom: 3px solid green !important;
+    // border-left: 3px solid green !important;
 }
 
 .invalid {
-    border-bottom: 2px solid red !important;
-    border-left: 2px solid red !important;
+    border-bottom: 3px solid red !important;
+    // border-left: 3px solid red !important;
 }
 
 .show {
@@ -101,10 +101,6 @@ textarea {
     
     .logo {
         width:auto;
-    }
-    
-    .eye-globe {
-        max-width: 400px;
     }
 
     .bodyText {
