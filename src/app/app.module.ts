@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+//Pages
 import { AppComponent } from './app.component';
 import { Home } from './components/home/home.component';
 import { Login } from './components/login/login.component';
@@ -12,15 +13,16 @@ import { Dashboard } from './components/dashboard/dashboard.component';
 import { AdminDashboard } from './components/admin-dashboard/admin-dashboard.component';
 import { ForgotPassword } from './components/forgot-password/forgot-password.component';
 import { VerifyEmail } from './components/verify-email/verify-email.component';
+import { Logout } from './components/logout/logout.component';
 
+//Services
 import { AuthGuard } from './services/auth.guard';
 import { AuthAdminGuard } from './services/auth-admin.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
+//Material Design
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -56,7 +58,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
+//Firebase
 import { AngularFireModule } from '@angular/fire/compat';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
@@ -71,6 +76,7 @@ const routes: Routes = [
   { path: 'admin-dashboard', component: AdminDashboard, canActivate: [AuthAdminGuard] },
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'verify-email', component: VerifyEmail },
+  { path: 'logout', component: Logout },
   { path: '**', component: Home }
 ]
 
@@ -82,7 +88,8 @@ const routes: Routes = [
     Signup,
     Dashboard,
     ForgotPassword,
-    VerifyEmail
+    VerifyEmail,
+    Logout
   ],
   imports: [
     BrowserModule,
