@@ -56,6 +56,7 @@ export class AuthService {
           isAdmin: false
         });
       result.user?.sendEmailVerification();  // immediately send the user a verification email
+      result.user?.updateProfile({displayName: user.firstName + " " + user.lastName})
     })
     .catch(error => {
       console.log('Auth Service: signup error', error);
