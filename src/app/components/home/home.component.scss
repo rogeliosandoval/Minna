@@ -9,7 +9,7 @@
 .box-container {
     position: relative;
     margin: 0 auto;
-    min-height: 485px;
+    height: auto;
     background-color: lemonchiffon;
     background-image: url('../../../assets/yellow-paper.png');
     background-size: cover;
@@ -17,13 +17,10 @@
 }
 
 .box {
-    position: absolute;
-    left:0;
-    bottom:0;
-    top:0;
-    right:0;
-    padding-left: 25px;
-    padding-right: 25px;
+    width: 90%;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .logo {
@@ -34,9 +31,20 @@
     max-width: 250px;
 }
 
+.group {
+    max-width: 300px;
+}
+
 .text {
     padding: 0.5em;
-    width: 90%;
+    width: 100%;
+}
+
+.titleText {
+    resize: none;
+    color: black;
+    font-size: 2em;
+    line-height: 1.4em;
 }
 
 .bodyText {
@@ -47,9 +55,9 @@
 }
 
 .mat-icon{
-    height:28px !important;
-    width:28px !important;
-    font-size:28px !important;
+    height:25px !important;
+    width:25px !important;
+    font-size:25px !important;
 }
 
 .mat-primary {
@@ -227,11 +235,17 @@ a:hover, a:focus {
         max-width: 400px;
     }
 
+    .group {
+        max-width: 550px;
+    }
+
     .bodyText {
         font-size: 1.8em;
     }
 
     .box {
+        padding-top: 100px;
+        padding-bottom: 100px;
         padding-left: 50px;
         padding-right: 50px;
     }
