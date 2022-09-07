@@ -49,14 +49,15 @@ export class AuthService {
           accountType: 'endUser',
           firstName: user.firstName,
           lastName: user.lastName,
-          displayName: user.firstName + " " + user.lastName,
+          fullName: user.firstName + " " + user.lastName,
+          displayName: user.firstName,
           displayName_lower: user.firstName.toLowerCase() + " " + user.lastName.toLowerCase(),
           email: user.email,
           email_lower: emailLower,
           isAdmin: false
         });
       result.user?.sendEmailVerification();  // immediately send the user a verification email
-      result.user?.updateProfile({displayName: user.firstName + " " + user.lastName})
+      result.user?.updateProfile({displayName: user.firstName})
     })
     .catch(error => {
       console.log('Auth Service: signup error', error);

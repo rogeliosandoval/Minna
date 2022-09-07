@@ -20,7 +20,7 @@ export class AuthAdminGuard implements CanActivate {
 
     return new Promise((resolve, reject) => {
       this.fireAuth.onAuthStateChanged((user) => {
-        if (user && user?.email === 'rojaa1996@yahoo.com') {
+        if (user && user?.email === 'rogelio.g.sandoval@gmail.com') {
           resolve(true);
         } else {
           console.log('Auth Guard: you are not an admin');
