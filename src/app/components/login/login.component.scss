@@ -9,7 +9,7 @@
 .box-container {
     position: relative;
     margin: 0 auto;
-    min-height: 400px;
+    height: auto;
     background-color: lemonchiffon;
     background-image: url('../../../assets/yellow-paper.png');
     background-size: cover;
@@ -18,13 +18,9 @@
 
 .box {
     width: 90%;
-    height: 65%;
     margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .logo {
@@ -39,14 +35,23 @@
 }
 
 .mat-icon{
-    height:30px !important;
-    width:30px !important;
-    font-size:30px !important;
+    height:25px !important;
+    width:25px !important;
+    font-size:25px !important;
 }
 
 .mat-primary {
     background-color: white;
     color: #000;
+}
+
+.link {
+    text-decoration: none;
+    color:black;
+}
+
+.link:hover {
+    text-decoration: underline;
 }
 
 button {
@@ -58,7 +63,7 @@ input[type="password"],
 textarea {
     color: black;
     font-size: 24px;
-    padding: 4px 20px;
+    padding: 12px 20px;
     height: 47px;
     border: none;
     outline: none;
@@ -109,7 +114,6 @@ textarea {
 
     .box {
         width: 60%;
-        height: 65%;
         margin: auto;
     }
 
