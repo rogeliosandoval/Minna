@@ -1,0 +1,153 @@
+<div class="image-one d-none d-lg-block">
+    <img class="clipart-one" src="../../../assets/board.svg" alt="clipart">
+</div>
+<div class="custom-modal" *ngIf="modalSuccess">
+    <div class="modal-container">
+        <div class="content">
+            <div class="d-flex justify-content-center my-3">
+                <img style="width:100px;" src="../../../assets/green-check.svg" alt="green-check">
+            </div>
+            <p class="text-center" style="font-size:30px; color:black; line-height:25px;">
+                Successfully Published
+            </p>
+            <p class="text-center" style="font-size:18px; color:rgb(133, 86, 0); line-height:25px;">
+                Redirecting Back To Dashboard...
+            </p>
+        </div>
+    </div>
+</div>
+<div class="custom-container pb-4">
+    <div class="row my-lg-0">
+        <div class="col-md-6">
+            <div class="my-3">
+              <img routerLink="/home" class="logo" src="../../../assets/logo.png" alt="logo">
+            </div>
+        </div>
+        <div class="col-md-6 my-auto d-flex justify-content-center flex-wrap">
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/home">
+                    <mat-icon>home</mat-icon>
+                    <span>Home</span>
+                </button>
+            </div>
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/dashboard">
+                    <mat-icon>view_module</mat-icon>
+                    <span>Dashboard</span>
+                </button>
+            </div>
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/profile">
+                    <mat-icon>person</mat-icon>
+                    <span>Profile</span>
+                </button>
+            </div>
+            <div class="m-2" *ngIf="(fireAuth.user | async)">
+                <button mat-raised-button color="primary" (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                  <span>Log out</span>
+                </button>
+              </div>
+        </div>
+    </div>
+    <div class="my-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="d-flex justify-content-center my-auto">
+                    <img class="pencil" src="../../../assets/pencil.svg" alt="pencil">
+                </div>
+            </div>
+            <div class="col-lg-6 bodyText my-auto">
+                <div class="text-center my-2">
+                    Please consider the following:
+                </div>
+                <ul style="color:rgb(230, 87, 87);">
+                    <li>Keep your post appropriate.</li>
+                    <li>Do not use profanity. (if must please censor with *)</li>
+                    <li>Please do not spam.</li>
+                    <li>Avoid posting personal information.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-container" [ngClass]="{ fade: fadeForm, blue: bgBluePost, green: bgGreenPost, yellow: bgYellowPost, brown: bgBrownPost, purple: bgPurplePost, pink: bgPinkPost }">
+        <div class="box">
+            <div class="bodyText text-center mb-1">
+                Share a story or start a topic!
+            </div>
+            <form class="form" [formGroup]="postForm" type="">
+
+                <div class="form-panel" style="display:none;">
+                    <div class="form-row">
+                        <input [attr.disabled]="postForm.invalid ? true : true" type="text" name="color" formControlName="color" placeholder="Color" [ngClass]="{'invalid' : color && color.invalid && color.touched, 'valid' : color && color.valid && color.touched}" style="text-align:center; background:yellow; opacity:0.7;">
+                        <br>
+                    </div>
+                </div>
+
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input [attr.disabled]="postForm.invalid ? true : true" type="text" name="author" formControlName="author" placeholder="Author" [ngClass]="{'invalid' : author && author.invalid && author.touched, 'valid' : author && author.valid && author.touched}" style="text-align:center; background:yellow; opacity:0.7;">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center d-lg-flex justify-content-center my-4">
+                    <button class="mb-3 mb-lg-0 mx-lg-2" mat-raised-button color="primary" (click)="useName()">Use My Name</button>
+                    <button class="mx-lg-2" mat-raised-button color="primary" (click)="hideName()">I Want To Be Anonymous</button>
+                </div>
+                <!-- <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : author && author.invalid && author.touched}">
+                    Please enter a valid name
+                </div> -->
+
+                <div class="form-panel" style="display:none;">
+                    <div class="form-row">
+                        <input [attr.disabled]="postForm.invalid ? true : true" type="text" name="color" formControlName="color" placeholder="Color" [ngClass]="{'invalid' : color && color.invalid && color.touched, 'valid' : color && color.valid && color.touched}" style="text-align:center; background:yellow; opacity:0.7;">
+                        <br>
+                    </div>
+                </div>
+                <div class="bodyText text-center mt-2">
+                    Pick a Color!
+                </div>
+                <div class="text-center d-lg-flex justify-content-center my-2">
+                    <button class="mx-2 mb-3" style="background-color:rgb(184,216,215);" mat-raised-button color="primary" (click)="bluePost()">Blue</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(213,229,163);" mat-raised-button color="primary" (click)="greenPost()">Green</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(254,226,139);" mat-raised-button color="primary" (click)="yellowPost()">Yellow</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(213,193,171);" mat-raised-button color="primary" (click)="brownPost()">Brown</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(186,169,186);" mat-raised-button color="primary" (click)="purplePost()">Purple</button>
+                    <button class="mx-2 mb-3" style="background-color:pink;" mat-raised-button color="primary" (click)="pinkPost()">Pink</button>
+                </div>
+        
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="text" name="title" formControlName="title" placeholder="Title" [ngClass]="{'invalid' : title && title.invalid && title.touched, 'valid' : title && title.valid && title.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : title && title.invalid && title.touched}">
+                    Please enter a valid title
+                </div>
+        
+                <div class="form-row">
+                    <textarea name="message" formControlName="message" rows="4" cols="20" placeholder="Message" style="height: 155px !important;" [ngClass]="{'invalid' : message && message.invalid && message.touched, 'valid' : message && message.valid && message.touched}"></textarea>
+                    <br>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : message && message.invalid && message.touched}">
+                    Please enter a valid message
+                </div>
+
+                <div class="d-flex justify-content-center mt-2" *ngIf="postForm.invalid">
+                    <button mat-raised-button color="primary" disabled>Create Post</button>
+                </div>
+                <div class="d-flex justify-content-center mt-2" *ngIf="postForm.valid">
+                    <button (click)="createPost()" mat-raised-button color="primary" style="background-color:lightgreen !important;" >Create Post</button>
+                </div>
+
+            </form>
+            <div class="loading progressIndicator"  *ngIf="isProgressVisible">
+                <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
+            </div>
+        </div>
+    </div>
+    <div class="bodyText text-center my-3" style="color:rgb(226, 0, 0);">
+        {{firebaseErrorMessage}}
+    </div>
+</div>
