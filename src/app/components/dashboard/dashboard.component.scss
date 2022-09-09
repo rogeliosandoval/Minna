@@ -80,10 +80,35 @@
     color: #000;
 }
 
+.mat-form-field.bigClass > input {
+    font-size: 30px;
+}
 
 button {
     font-size: 22px;
 }
+
+input[type="text"],
+textarea {
+    color: black;
+    font-size: 20px;
+    padding: 14px 18px;
+    line-height: 35px;
+    height: 20px;
+    border: none;
+    outline: none;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.555);
+    // border-left: 3px solid black;
+    margin: 10px;
+    border-radius: 3px;
+    flex-grow: 1;
+    background:rgba(255, 255, 255, 0.52);
+    transition: 0.5s linear;
+}
+
+// input:focus {
+//     background: #dff5ffa4;
+// }
 
 .card-big-shadow {
     max-width: 320px;
@@ -234,16 +259,16 @@ a:hover, a:focus {
     color: #5a283d;
 }
 
-.card[data-color="orange"] {
-    background: #ff8f5e;
+.card[data-color="pink"] {
+    background: pink;
 }
 
-.card[data-color="orange"] .message {
-    color: #772510;
+.card[data-color="pink"] .message {
+    color: rgb(255, 113, 137);
 }
 
-.card[data-color="orange"] .author {
-    color: #e95e37;
+.card[data-color="pink"] .author {
+    color: rgb(255, 140, 159);
 }
 
 @media (min-width: 40em) {
@@ -260,5 +285,10 @@ a:hover, a:focus {
         width: 60%;
         margin: auto;
     }
+
+    // input[type="text"],
+    // textarea {
+    //     font-size: 20px;
+    // }
     
 }

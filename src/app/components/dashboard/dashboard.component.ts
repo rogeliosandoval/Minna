@@ -18,6 +18,7 @@ export class Dashboard implements OnInit, OnDestroy {
     username: any;
     postData: IPost[] = [];
     postSubscription!: Subscription;
+    searchText: any;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private dbservice: DatabaseService) {
         this.user = fireAuth.user;
