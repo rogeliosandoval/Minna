@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TruncatePipe } from './transform.pipe';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 //Pages
 import { AppComponent } from './app.component';
@@ -10,6 +12,9 @@ import { Home } from './components/home/home.component';
 import { Login } from './components/login/login.component';
 import { Signup } from './components/signup/signup.component';
 import { Dashboard } from './components/dashboard/dashboard.component';
+import { Post } from './components/post/post.component';
+import { CreatePost } from './components/create-post/create-post.component';
+import { Profile } from './components/profile/profile.component';
 import { AdminDashboard } from './components/admin-dashboard/admin-dashboard.component';
 import { ForgotPassword } from './components/forgot-password/forgot-password.component';
 import { VerifyEmail } from './components/verify-email/verify-email.component';
@@ -66,17 +71,20 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
-
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: Home },
-  { path: 'login', component: Login },
-  { path: 'signup', component: Signup },
-  { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] },
-  { path: 'admin-dashboard', component: AdminDashboard, canActivate: [AuthAdminGuard] },
-  { path: 'forgot-password', component: ForgotPassword },
-  { path: 'verify-email', component: VerifyEmail },
-  { path: 'logout', component: Logout },
+  { path: 'login', component: Login, data: { animation: 'fader' } },
+  { path: 'signup', component: Signup, data: { animation: 'fader' } },
+  { path: 'dashboard', component: Dashboard, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'posts', component: Dashboard, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'posts/:id', component: Post, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'create-post', component: CreatePost, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'profile', component: Profile, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'admin-dashboard', component: AdminDashboard, data: { animation: 'fader' } , canActivate: [AuthAdminGuard] },
+  { path: 'forgot-password', component: ForgotPassword, data: { animation: 'fader' } },
+  { path: 'verify-email', component: VerifyEmail, data: { animation: 'fader' } },
+  { path: 'logout', component: Logout, data: { animation: 'fader' } },
   { path: '**', component: Home }
 ]
 
@@ -87,9 +95,14 @@ const routes: Routes = [
     Login,
     Signup,
     Dashboard,
+    Post,
+    CreatePost,
+    Profile,
+    AdminDashboard,
     ForgotPassword,
     VerifyEmail,
-    Logout
+    Logout,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
@@ -137,7 +150,8 @@ const routes: Routes = [
     HttpClientModule,
     AngularFireModule,
     AngularFirestoreModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
