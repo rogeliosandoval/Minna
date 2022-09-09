@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { IPost } from '../models/IPost';
+import { IComment } from '../models/IComment';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -25,8 +26,22 @@ export class DatabaseService {
     return this.http.get('https://minna-c691d-default-rtdb.firebaseio.com/posts/'+id+'.json');
   }
 
+  getComments(id:any) {
+    return this.http.get<{[id: string]: IComment}>('https://minna-c691d-default-rtdb.firebaseio.com/posts/'+id+'/comments.json').pipe(map(comments => {
+      let commentData: IComment[] = [];
+      for(let id in comments) {
+        commentData.push({ ...comments[id], id})
+      }
+      return commentData;
+    }));
+  }
+
   deletePost(id:any) {
     this.db.object("/posts/"+id).remove();
+  }
+
+  deleteComment(id:any, commentid:any) {
+    this.db.object("/posts/"+id+"/comments/"+commentid).remove();
   }
 
 }
