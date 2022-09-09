@@ -18,28 +18,42 @@ export class Dashboard implements OnInit, OnDestroy {
     username: any;
     postData: IPost[] = [];
     postSubscription!: Subscription;
-    searchText: any;
+    searchText = '';
+    p: number = 1;
+    currentPage: any;
+    pageLoading = true;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private dbservice: DatabaseService) {
         this.user = fireAuth.user;
     }
     
     ngOnInit(): void {
-        this.fireAuth.authState.subscribe(user => {
-            // console.log('Dashboard: user', user);
+        try {
+            this.pageLoading = false;
+            this.fireAuth.authState.subscribe(user => {
+                // console.log('Dashboard: user', user);
+                
+                if (user) {
+                    let emailLower = user.email?.toLowerCase();
+                    this.user = this.afs.collection('users').doc(emailLower).valueChanges();
+                    this.username = user.displayName;
+                }
+                
+            });
             
-            if (user) {
-                let emailLower = user.email?.toLowerCase();
-                this.user = this.afs.collection('users').doc(emailLower).valueChanges();
-                this.username = user.displayName;
-            }
-            
-        });
+            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                this.postData = data.reverse();
+            });
+        } catch (error) {
+            console.log(error);
+        }
         
-        this.postSubscription = this.dbservice.getPosts().subscribe(data => {
-            this.postData = data;
-        })
-        
+    }
+
+    // scrolls user back to the top on pagination change
+    onPageChange(page: number) {
+        this.currentPage = page;
+        window.scrollTo(0,0);
     }
 
     ngOnDestroy(): void {
