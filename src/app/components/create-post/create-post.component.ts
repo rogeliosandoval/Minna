@@ -27,6 +27,7 @@ export class CreatePost implements OnInit, OnDestroy {
     postSubscription!: Subscription;
     fadeForm = false;
     modalSuccess = false;
+    errorMessage: any;
 
     bgBluePost = false;
     bgGreenPost = false;
@@ -72,49 +73,60 @@ export class CreatePost implements OnInit, OnDestroy {
         return this.postForm.get('message');
     }
     
-    createPost() {
-        this.fadeForm = true;
-        this.isProgressVisible = true;
-        const ref = this.db.list("posts");
-        ref.push(this.postForm.value);
-
-        setTimeout(() => {
-            this.isProgressVisible = false;
-            this.modalSuccess = true;
-            // this "refreshes" the component so that the data updates on the DOM
+    async createPost() {
+        try {
+            this.fadeForm = true;
+            this.isProgressVisible = true;
+            const ref = this.db.list("posts");
+            await ref.push(this.postForm.value);
+    
             setTimeout(() => {
-                this.router.navigate(['/dashboard']);
-                // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-                // this.router.onSameUrlNavigation = 'reload';
-                // this.router.navigate(['./'], {
-                //     relativeTo: this.route
-                //     queryParamsHandling: 'merge'  // keep params on reload
-                // })
-            }, 2500)
-        }, 1000)
+                this.isProgressVisible = false;
+                this.modalSuccess = true;
+                // this "refreshes" the component so that the data updates on the DOM
+                setTimeout(() => {
+                    this.router.navigate(['/dashboard']);
+                    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+                    // this.router.onSameUrlNavigation = 'reload';
+                    // this.router.navigate(['./'], {
+                    //     relativeTo: this.route
+                    //     queryParamsHandling: 'merge'  // keep params on reload
+                    // })
+                }, 2500)
+            }, 1000)
+        } catch (error) {
+            this.fadeForm = false;
+            this.isProgressVisible = false;
+            this.errorMessage = 'Something went wrong, try again.';
+            console.log(error);
+        }
     }
     
     ngOnInit(): void {
-        this.fireAuth.authState.subscribe(user => {
-            // console.log('Dashboard: user', user);
+        try{
+            this.fireAuth.authState.subscribe(user => {
+                // console.log('Dashboard: user', user);
+                
+                if (user) {
+                    let emailLower = user.email?.toLowerCase();
+                    this.user = this.afs.collection('users').doc(emailLower).valueChanges();
+                    this.username = user.displayName;
+                    this.email = user.email;
+                }
+                
+            });
             
-            if (user) {
-                let emailLower = user.email?.toLowerCase();
-                this.user = this.afs.collection('users').doc(emailLower).valueChanges();
-                this.username = user.displayName;
-                this.email = user.email;
-            }
-            
-        });
-        
-        this.postSubscription = this.dbservice.getPosts().subscribe(data => {
-            this.postData = data;
-        })
-
-        setTimeout(() => {
-            this.postForm.get('name')?.setValue(this.username);
-            this.postForm.get('email')?.setValue(this.email);
-        }, 1000)
+            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                this.postData = data;
+            })
+    
+            setTimeout(() => {
+                this.postForm.get('name')?.setValue(this.username);
+                this.postForm.get('email')?.setValue(this.email);
+            }, 1000);
+        } catch (error) {
+            console.log(error);
+        }
         
     }
 

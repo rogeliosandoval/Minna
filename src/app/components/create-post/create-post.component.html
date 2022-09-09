@@ -147,7 +147,7 @@
             </div>
         </div>
     </div>
-    <div class="bodyText text-center my-3" style="color:rgb(226, 0, 0);">
-        {{firebaseErrorMessage}}
+    <div *ngIf="errorMessage" class="bodyText text-center my-3" style="color:rgb(226, 0, 0);">
+        {{errorMessage}}
     </div>
 </div>
