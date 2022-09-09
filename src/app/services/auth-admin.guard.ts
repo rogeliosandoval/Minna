@@ -23,7 +23,7 @@ export class AuthAdminGuard implements CanActivate {
         if (user && user?.email === 'rogelio.g.sandoval@gmail.com') {
           resolve(true);
         } else {
-          console.log('Auth Guard: you are not an admin');
+          // console.log('Auth Guard: you are not an admin');
           this.router.navigate(['/home']); // a logged out user will always be sent to home
           resolve(false);
         }

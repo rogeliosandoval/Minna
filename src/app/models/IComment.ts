@@ -1,4 +1,5 @@
 export interface IComment {
+    isOwner: boolean;
     canModify: boolean;
     name: string;
     email: string;

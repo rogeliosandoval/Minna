@@ -36,12 +36,12 @@ export class DatabaseService {
     }));
   }
 
-  deletePost(id:any) {
-    this.db.object("/posts/"+id).remove();
+  async deletePost(id:any) {
+    await this.db.object("/posts/"+id).remove();
   }
 
-  deleteComment(id:any, commentid:any) {
-    this.db.object("/posts/"+id+"/comments/"+commentid).remove();
+  async deleteComment(id:any, commentid:any) {
+    await this.db.object("/posts/"+id+"/comments/"+commentid).remove();
   }
 
 }

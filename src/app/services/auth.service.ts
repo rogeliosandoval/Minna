@@ -27,9 +27,9 @@ export class AuthService {
 
   loginUser(email: string, password: string): Promise<any> {
     return this.fireAuth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('Auth Service: loginUser: success');  // this.router.navigate(['/dashboard']);
-    })
+    // .then(() => {
+    //   console.log('Auth Service: loginUser: success');  // this.router.navigate(['/dashboard']);
+    // })
     .catch(error => {
       console.log('Auth Service: login error...');
       console.log('error code', error.code);
