@@ -1,0 +1,84 @@
+<div class="custom-container">
+    <div class="row my-lg-0">
+        <div class="col-md-6">
+            <div class="my-3">
+              <img routerLink="/home" class="logo" src="../../../assets/logo.png" alt="logo">
+            </div>
+        </div>
+        <div class="col-md-6 my-auto d-flex justify-content-center flex-wrap">
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/home">
+                    <mat-icon>home</mat-icon>
+                    <span>Home</span>
+                </button>
+            </div>
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/dashboard">
+                    <mat-icon>view_module</mat-icon>
+                    <span>Dashboard</span>
+                </button>
+            </div>
+            <div class="m-2" *ngIf="(fireAuth.user | async)">
+                <button mat-raised-button color="primary" (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                  <span>Log out</span>
+                </button>
+              </div>
+        </div>
+    </div>
+    <div class="box-container my-4 my-lg-0">
+        <div class="box">
+            <div class="titleText text-center mb-1">
+                {{ (user | async)?.fullName }}
+            </div>
+            <div class="row my-1 my-lg-5">
+                <div class="col-lg-6 my-4 my-lg-auto">
+                    <div class="d-flex justify-content-center">
+                        <img class="avatar" src="../../../assets/Linux-Smiley.svg" alt="avatar">
+                    </div>
+                </div>
+                <div class="col-lg-6 my-auto">
+                    <div class="bodyText">
+                        Email:<br>
+                        {{ (user | async)?.email }}<br>
+                        <br>
+                        Account Type:<br>
+                        {{ (user | async)?.accountType }}<br>
+                        <br>
+                        Admin Status:<br>
+                        {{ (user | async)?.isAdmin }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 titleText text-center">
+        Your Posts
+    </div>
+    <div class="nopost" *ngIf="showAdd">
+        <div class="text-center bodyText">
+            You don't have any posts yet.
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <button routerLink="/create-post" mat-raised-button color="primary" style="background-color:lightgreen !important;">
+                <mat-icon>add_box</mat-icon>
+                <span> Add Post</span>
+            </button>
+        </div>
+    </div>
+    <div class="posts row" *ngIf="showPosts">
+        <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of userData">
+            <a routerLink="/posts/{{post.id}}">
+                <div class="card-big-shadow">
+                    <div class="card card-just-text" data-background="color" attr.data-color="{{post.color}}" data-radius="none">
+                        <div class="content">
+                            <h6 class="author mb-2">{{post.author}}</h6>
+                            <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
+                            <p class="message">{{post.message | truncate:100}}</p>
+                        </div>
+                    </div> <!-- end card -->
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
