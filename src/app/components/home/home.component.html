@@ -1,3 +1,6 @@
+<div class="image-one d-none d-lg-block">
+  <img class="clipart-one" src="../../../assets/thought.svg" alt="clipart">
+</div>
 <div class="custom-container">
   <div class="row mb-4 my-lg-0">
     <div class="col-lg-6">
@@ -5,20 +8,26 @@
           <img routerLink="/home" class="logo" src="../../../assets/logo.png" alt="logo">
         </div>
     </div>
-    <div class="col-lg-6 my-auto d-flex justify-content-center">
-      <div class="mx-2" *ngIf="!(fireAuth.user | async)">
+    <div class="col-lg-6 my-auto d-flex justify-content-center flex-wrap">
+      <div class="m-2" *ngIf="!(fireAuth.user | async)">
         <button mat-raised-button color="primary" routerLink="/login">
           <mat-icon>login</mat-icon>
           <span> Login</span>
         </button>
       </div>
-      <div class="mx-2" *ngIf="(fireAuth.user | async)">
+      <div class="m-2" *ngIf="(fireAuth.user | async)">
         <button mat-raised-button color="primary" routerLink="/dashboard">
           <mat-icon>view_module</mat-icon>
           <span>Dashboard</span>
         </button>
       </div>
-      <div class="mx-2" *ngIf="(fireAuth.user | async)">
+      <div class="m-2" *ngIf="(fireAuth.user | async)">
+        <button mat-raised-button color="primary" routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+      </div>
+      <div class="m-2" *ngIf="(fireAuth.user | async)">
         <button mat-raised-button color="primary" (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Log out</span>
@@ -55,7 +64,7 @@
   </div>
 </div>
 
-<div class="container my-5">
+<div class="container mt-5 mb-0 my-lg-5">
   <div class="titleText text-center my-3">
     ONE DAY AT A TIME
   </div>
@@ -122,10 +131,10 @@
       
       <div class="col-lg-4 col-md-6 content-card">
           <div class="card-big-shadow">
-              <div class="card card-just-text" data-background="color" data-color="orange" data-radius="none">
+              <div class="card card-just-text" data-background="color" data-color="pink" data-radius="none">
                   <div class="content">
                       <h6 class="category">About</h6>
-                      <h4 class="title" style="color:rgb(107, 107, 107);">Orange Card</h4>
+                      <h4 class="title" style="color:rgb(107, 107, 107);">Pink Card</h4>
                       <p class="description">Make yourself anonymous when creating posts if you don't feel comfortable sharing your name. We don't judge here and we never will.</p>
                   </div>
               </div> <!-- end card -->
@@ -135,20 +144,20 @@
   <div class="my-5">
     <div class="row">
       <div class="col-lg-6 text-center text-lg-left bodyText my-auto">
-        Think of this as<span class="d-none d-lg-inline"> a group meeting about life!</span><br class="d-none d-lg-block"><span class="d-inline d-lg-none">...<br>
-        a group meeting about life!<br></span>
+        Think of this as<span class="d-none d-lg-inline"> a group meeting about life.</span><br class="d-none d-lg-block"><span class="d-inline d-lg-none">...<br>
+        a group meeting about life.<br></span>
         We all have something to share.<br>
         We're never in this alone.
       </div>
       <div class="col-lg-6 my-5 my-lg-auto">
         <div class="d-flex justify-content-center">
-          <img class="group p-4" src="../../../assets/group.svg" alt="group">
+          <img class="group p-1 p-lg-4" src="../../../assets/group.svg" alt="group">
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="py-4">
+<div class="pt-4 pb-2">
   <div class="bodyText text-center my-1" style="font-size:20px; opacity:0.4;">
     © 2022 Copyright: Minna
   </div>

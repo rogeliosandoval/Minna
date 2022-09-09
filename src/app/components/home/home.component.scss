@@ -31,6 +31,19 @@
     max-width: 250px;
 }
 
+.image-one {
+    width: 40%;
+    position: fixed;
+    bottom: 0px;
+    opacity: 0.1;
+    padding: 20px;
+    transform: rotate(-20deg);
+}
+
+.clipart-one {
+    width: 50%;
+}
+
 .group {
     max-width: 300px;
 }
@@ -213,16 +226,16 @@ a:hover, a:focus {
     color: #5a283d;
 }
 
-.card[data-color="orange"] {
-    background: #ff8f5e;
+.card[data-color="pink"] {
+    background: pink;
 }
 
-.card[data-color="orange"] .description {
-    color: #772510;
+.card[data-color="pink"] .description {
+    color: rgb(255, 113, 137);
 }
 
-.card[data-color="orange"] .category {
-    color: #e95e37;
+.card[data-color="pink"] .category {
+    color: rgb(255, 140, 159);
 }
 
 @media (min-width: 40em) {
