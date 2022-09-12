@@ -44,6 +44,45 @@
     width: 50%;
 }
 
+.image-two {
+    width: 40%;
+    position: absolute;
+    bottom: 0px;
+    opacity: 0.5;
+    padding: 20px;
+}
+
+.clipart-two {
+    width: 50%;
+}
+
+.image-three {
+    width: 40%;
+    position: absolute;
+    bottom: 0px;
+    right:0px;
+    opacity: 0.8;
+    padding: 15px;
+}
+
+.clipart-three {
+    width: 30%;
+}
+
+.image-four {
+    width: 40%;
+    position: absolute;
+    top: -20px;
+    right:150px;
+    opacity: 0.7;
+    padding: 20px;
+    transform: rotate(10deg);
+}
+
+.clipart-four {
+    width: 30%;
+}
+
 .group {
     max-width: 300px;
 }
@@ -231,11 +270,47 @@ a:hover, a:focus {
 }
 
 .card[data-color="pink"] .description {
-    color: rgb(255, 113, 137);
+    color: rgb(221, 86, 108);
 }
 
 .card[data-color="pink"] .category {
-    color: rgb(255, 140, 159);
+    color: rgb(236, 109, 130);
+}
+
+.card[data-color="grey"] {
+    background: rgb(189, 189, 189);
+}
+
+.card[data-color="grey"] .description {
+    color: rgb(82, 82, 82);
+}
+
+.card[data-color="grey"] .category {
+    color: rgb(121, 121, 121);
+}
+
+.card[data-color="red"] {
+    background: rgb(255, 137, 137);
+}
+
+.card[data-color="red"] .description {
+    color: rgb(158, 69, 69);
+}
+
+.card[data-color="red"] .category {
+    color: rgb(195, 88, 88);
+}
+
+.card[data-color="default"] {
+    background: #fff2c7;
+}
+
+.card[data-color="default"] .description {
+    color: #999073;
+}
+
+.card[data-color="default"] .category {
+    color: #beb28c;
 }
 
 @media (min-width: 40em) {
