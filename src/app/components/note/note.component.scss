@@ -1,0 +1,364 @@
+.custom-container {
+    max-width: 1400px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.box-container {
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+    background-color: rgb(190, 190, 190);
+    isolation: isolate;
+    box-shadow: -5px 5px 5px grey;
+}
+
+.box-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.1;
+    background-image: url('../../../assets/yellow-paper.png');
+    background-size: cover;
+}
+
+.image-one {
+    width: 40%;
+    position: fixed;
+    bottom: 0px;
+    opacity: 0.2;
+    padding: 20px;
+}
+
+.clipart-one {
+    width: 50%;
+}
+
+.blue {
+    background-color: rgb(184,216,215) !important;
+}
+
+.green {
+    background-color: rgb(213,229,163) !important;
+}
+
+.yellow {
+    background-color: rgb(254,226,139) !important;
+}
+
+.brown {
+    background-color: rgb(213,193,171) !important;
+}
+
+.default {
+    background-color: #fff2c7 !important;
+}
+
+.purple {
+    background-color: rgb(186,169,186) !important;
+}
+
+.tan {
+    background-color: rgb(224, 202, 172) !important;
+}
+
+.red {
+    background-color: rgb(255, 137, 137) !important;
+}
+
+.skyBlue {
+    background-color: skyblue !important;
+}
+
+.pink {
+    background-color: pink !important;
+}
+
+.red {
+    background-color: rgb(255, 137, 137) !important;
+}
+
+.grey {
+    background-color: rgb(189, 189, 189) !important;
+}
+
+
+.box {
+    width: 90%;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.logo {
+    width: 100%;
+}
+
+.bodyText {
+    resize: none;
+    color: black;
+    font-size: 1.5em;
+    line-height: 1.4em;
+}
+
+.titleText {
+    color:black;
+    font-weight: bold;
+    font-size: 2.2em;
+    line-height: 1.5em;
+}
+
+.mat-icon{
+    height:25px !important;
+    width:25px !important;
+    font-size:25px !important;
+}
+
+.mat-primary {
+    background-color: white;
+    color: #000;
+}
+
+.fade {
+    opacity: 0.7;
+}
+
+.custom-modal {
+    position:fixed;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0, 0, 0, 0.363);
+    z-index:2;
+    -webkit-animation: fadeIn 0.5s forwards;
+    -moz-animation: fadeIn 0.5s forwards;
+    animation: fadeIn 0.5s forwards;
+}
+
+.modal-container {
+    position: fixed;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width:340px;
+    height:340px;
+    background-color:#dff5ff;
+    box-shadow: -5px 5px 10px rgb(75, 75, 75);
+    border-radius: 10px;
+    z-index:1;
+    -webkit-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    -moz-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+}
+
+.content {
+    width:100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.comment-container {
+    position: relative;
+    width:90%;
+    background-color: #fff2c7;
+    padding:20px;
+    border-radius: 20px;
+}
+
+.avatar {
+    width: 100px;
+    border-radius: 10%;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    z-index: 1;
+}
+
+.badge {
+    position: absolute;
+    top:-23px;
+    right:7px;
+    padding-top:8px;
+    padding-left:15px;
+    font-size: 20px;
+    float: right;
+}
+
+.date {
+    position:absolute;
+    font-size:20px;
+    padding:20px;
+    opacity: 0.4;
+}
+
+.smallDate {
+    position:absolute;
+    left:2px;
+    top:-5px;
+    font-size:13px;
+    padding:15px;
+    opacity: 0.3;
+}
+
+.my-pagination {
+    transform: translate(-1.5rem, 1rem);
+}
+
+button {
+    font-size: 22px;
+}
+
+.modify {
+    -webkit-animation: fadeIn 0.5s forwards;
+    -moz-animation: fadeIn 0.5s forwards;
+    animation: fadeIn 0.5s forwards;
+}
+
+.comments {
+    -webkit-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    -moz-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+}
+
+input[type="text"],
+textarea {
+    color: black;
+    font-size: 24px;
+    padding: 12px 20px;
+    line-height: 35px;
+    height: 47px;
+    border: none;
+    outline: none;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.555);
+    // border-left: 3px solid black;
+    margin: 10px;
+    border-radius: 3px;
+    flex-grow: 1;
+    background:rgba(255, 255, 255, 0.52);
+}
+
+.valid {
+    border-bottom: 3px solid green !important;
+    // border-left: 3px solid green !important;
+}
+
+.invalid {
+    border-bottom: 3px solid red !important;
+    // border-left: 3px solid red !important;
+}
+
+.show {
+    visibility: visible !important;
+}
+
+.form-row {
+  flex-direction: row;
+  display: flex;
+}
+
+.form-panel {
+  background-color: none;
+}
+
+.error-text {
+    font-size: 16px;
+}
+
+.comment {
+    background:#fff2c7;
+    padding:10px;
+    border-radius:20px;
+    width:100%;
+}
+
+//fades in
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+//slides from the top
+@-webkit-keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
+}
+
+@-moz-keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
+
+}
+
+@keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
+}
+
+@media (min-width: 40em) {
+    
+    .logo {
+        width:auto;
+    }
+
+    .titleText {
+        font-size: 3em;
+    }
+
+    .bodyText {
+        font-size: 1.8em;
+    }
+
+    .box {
+        width: 60%;
+        margin: auto;
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 28px;
+    }
+
+    .error-text {
+        font-size: 21px;
+    }
+
+    .comment-container {
+        width:80%;
+    }
+
+    .comment {
+        padding:50px;
+        width:70%;
+    }
+
+    .color-buttons {
+        margin:auto;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+}
