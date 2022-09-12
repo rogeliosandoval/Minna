@@ -1,0 +1,127 @@
+<div class="image-one d-none d-lg-block">
+    <img class="clipart-one" src="../../../assets/board.svg" alt="clipart">
+</div>
+<div class="custom-modal" *ngIf="modalSuccess">
+    <div class="modal-container">
+        <div class="content">
+            <div class="d-flex justify-content-center my-3">
+                <img style="width:100px;" src="../../../assets/green-check.svg" alt="green-check">
+            </div>
+            <p class="text-center" style="font-size:30px; color:black; line-height:25px;">
+                Successfully Published
+            </p>
+            <p class="text-center" style="font-size:18px; color:rgb(133, 86, 0); line-height:25px;">
+                Redirecting To Your Notebook...
+            </p>
+        </div>
+    </div>
+</div>
+<div class="custom-container pb-4">
+    <div class="row my-lg-0">
+        <div class="col-md-6">
+            <div class="my-3">
+              <img routerLink="/home" class="logo" src="../../../assets/logo.png" alt="logo">
+            </div>
+        </div>
+        <div class="col-md-6 my-auto d-flex justify-content-center flex-wrap">
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/home">
+                    <mat-icon>home</mat-icon>
+                    <span>Home</span>
+                </button>
+            </div>
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/dashboard">
+                    <mat-icon>view_module</mat-icon>
+                    <span>Dashboard</span>
+                </button>
+            </div>
+            <div class="m-2">
+                <button mat-raised-button color="primary" routerLink="/profile">
+                    <mat-icon>person</mat-icon>
+                    <span>Profile</span>
+                </button>
+            </div>
+            <div class="m-2" *ngIf="(fireAuth.user | async)">
+                <button mat-raised-button color="primary" (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                  <span>Log out</span>
+                </button>
+              </div>
+        </div>
+    </div>
+    <div class="my-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="d-flex justify-content-center mb-3 my-lg-auto">
+                    <img class="pencil" src="../../../assets/pencil.svg" alt="pencil">
+                </div>
+            </div>
+            <div class="col-lg-6 bodyText my-auto">
+                <div class="text-center my-2">
+                    Personally For You:
+                </div>
+                <ul style="color:rgb(63, 153, 105);">
+                    <li>Jot some ideas down for whatever.</li>
+                    <li>Have a lot to do? Make a todo list.</li>
+                    <li>Write something down you don't ever want to forget.</li>
+                    <li>Create a review sheet for a test maybe?</li>
+                </ul>
+                <div class="text-center text-lg-left" style="font-size:18px;">
+                    Privacy is our priority. We won't ever share your information with anyone.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Note Form-->
+    <div class="box-container my-5 pb-5" [ngClass]="{ fade: fadeNoteForm, default: bgDefaultNote, green: bgGreenNote, red: bgRedNote, blue: bgBlueNote, grey: bgGreyNote, pink: bgPinkNote}">
+        <div class="box">
+            <div class="bodyText text-center mb-4">
+                Note
+            </div>
+            <form class="form" [formGroup]="noteForm" type="">
+                
+                <div class="text-center d-lg-flex justify-content-center my-2">
+                    <button class="mx-2 mb-3" style="background-color:#fff2c7;" mat-raised-button color="primary" (click)="defaultNote()">Default</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(213,229,163);" mat-raised-button color="primary" (click)="greenNote()">Green</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(255, 137, 137);" mat-raised-button color="primary" (click)="redNote()">Red</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(184,216,215);" mat-raised-button color="primary" (click)="blueNote()">Blue</button>
+                    <button class="mx-2 mb-3" style="background-color:rgb(189, 189, 189);" mat-raised-button color="primary" (click)="greyNote()">Grey</button>
+                    <button class="mx-2 mb-3" style="background-color:pink;" mat-raised-button color="primary" (click)="pinkNote()">Pink</button>
+                </div>
+
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="text" name="title" formControlName="title" placeholder="Title" [ngClass]="{'invalid' : title && title.invalid && title.touched, 'valid' : title && title.valid && title.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : title && title.invalid && title.touched}">
+                    Please enter a title
+                </div>
+        
+                <div class="form-row">
+                    <textarea name="message" formControlName="message" rows="4" cols="20" placeholder="Message" style="height: 155px !important;" [ngClass]="{'invalid' : message && message.invalid && message.touched, 'valid' : message && message.valid && message.touched}"></textarea>
+                    <br>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : message && message.invalid && message.touched}">
+                    Please enter a message
+                </div>
+
+                <div class="d-flex justify-content-center mt-2" *ngIf="noteForm.invalid">
+                    <button mat-raised-button color="primary" disabled>Create Note</button>
+                </div>
+                <div class="d-flex justify-content-center mt-2" *ngIf="noteForm.valid">
+                    <button (click)="createNote()" mat-raised-button color="primary" style="background-color:rgb(14, 153, 14) !important; color:white;">Create Note</button>
+                </div>
+
+            </form>
+            <div class="loading progressIndicator"  *ngIf="isProgressVisibleNote">
+                <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="errorMessageNote" class="bodyText text-center my-3" style="color:rgb(226, 0, 0);">
+        {{errorMessageNote}}
+    </div>
+</div>
