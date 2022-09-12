@@ -38,7 +38,7 @@
 
 <div class="container mb-5">
     <div class="d-flex justify-content-center d-lg-block float-lg-right mt-4 mb-4 mt-lg-2 mb-lg-0">
-        <button routerLink="/create-post" mat-raised-button color="primary" style="background-color:lightgreen !important;">
+        <button routerLink="/create-post" mat-raised-button color="primary" style="background-color:rgb(14, 153, 14) !important; color:white;">
             <mat-icon>add_box</mat-icon>
             <span> Add Post</span>
         </button>
@@ -55,6 +55,7 @@
             <a routerLink="/posts/{{post.id}}">
                 <div class="card-big-shadow">
                     <div class="card card-just-text" data-background="color" attr.data-color="{{post.color}}" data-radius="none">
+                        <h6 class="date"><span *ngIf="post.isEdited">Edited • </span>{{post.date | dateAgo}}</h6>
                         <div class="content">
                             <h6 class="author mb-2">{{post.author}}</h6>
                             <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
@@ -68,13 +69,14 @@
     <!-- displays all posts when using search filter -->
     <div class="row" *ngIf="searchText !== ''">
         <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of postData | filter:searchText">
-            <a routerLink="/posts/{{post.id}}">
+            <a routerLink="/posts/{{post?.id}}">
                 <div class="card-big-shadow">
-                    <div class="card card-just-text" data-background="color" attr.data-color="{{post.color}}" data-radius="none">
+                    <div class="card card-just-text" data-background="color" attr.data-color="{{post?.color}}" data-radius="none">
+                        <h6 class="date"><span *ngIf="post.isEdited">Edited • </span>{{post?.date | dateAgo}}</h6>
                         <div class="content">
-                            <h6 class="author mb-2">{{post.author}}</h6>
-                            <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
-                            <p class="message">{{post.message | truncate:100}}</p>
+                            <h6 class="author mb-2">{{post?.author}}</h6>
+                            <h4 class="title" style="color:rgb(93, 93, 93);">{{post?.title | truncate:28}}</h4>
+                            <p class="message">{{post?.message | truncate:100}}</p>
                         </div>
                     </div> <!-- end card -->
                 </div>

@@ -100,6 +100,13 @@
     z-index: 1;
 }
 
+.date {
+    position:absolute;
+    font-size:12px;
+    padding:10px;
+    opacity: 0.4;
+}
+
 button {
     font-size: 22px;
 }
@@ -235,7 +242,7 @@ a:hover, a:focus {
     color: #60773d;
 }
 
-.card[data-color="green"] .author {
+.card[data-color="green"] .author{
     color: #92ac56;
 }
 
@@ -280,11 +287,47 @@ a:hover, a:focus {
 }
 
 .card[data-color="pink"] .message {
-    color: rgb(255, 113, 137);
+    color: rgb(221, 86, 108);
 }
 
 .card[data-color="pink"] .author {
-    color: rgb(255, 140, 159);
+    color: rgb(236, 109, 130);
+}
+
+.card[data-color="grey"] {
+    background: rgb(189, 189, 189);
+}
+
+.card[data-color="grey"] .message {
+    color: rgb(82, 82, 82);
+}
+
+.card[data-color="grey"] .author {
+    color: rgb(121, 121, 121);
+}
+
+.card[data-color="red"] {
+    background: rgb(255, 137, 137);
+}
+
+.card[data-color="red"] .message {
+    color: rgb(158, 69, 69);
+}
+
+.card[data-color="red"] .author {
+    color: rgb(195, 88, 88);
+}
+
+.card[data-color="default"] {
+    background: #fff2c7;
+}
+
+.card[data-color="default"] .message {
+    color: #999073;
+}
+
+.card[data-color="default"] .author {
+    color: #beb28c;
 }
 
 @media (min-width: 40em) {
