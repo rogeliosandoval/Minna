@@ -61,6 +61,7 @@
     -ms-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
+    z-index: 1;
 }
 
 button {
@@ -72,8 +73,8 @@ input[type="email"],
 input[type="password"],
 textarea {
     color: black;
-    font-size: 24px;
-    padding: 12px 20px;
+    font-size: 20px;
+    padding: 10px 18px;
     height: 47px;
     width: 100%;
     border: none;
@@ -137,11 +138,18 @@ textarea {
     input[type="email"],
     input[type="password"],
     textarea {
-        font-size: 28px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 22px;
+        padding: 10px 18px;
+        width: 70%;
+        flex-grow: 0;
     }
 
     .error-text {
-        font-size: 21px;
+        font-size: 16px;
     }
     
 }

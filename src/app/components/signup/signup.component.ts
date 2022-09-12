@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service'
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
@@ -17,7 +17,7 @@ export class Signup {
     signupForm!: FormGroup;
     firebaseErrorMessage: string;
 
-    constructor(private authService: AuthService, private router: Router, private afAuth: AngularFireAuth) {
+    constructor(private authService: AuthService, private router: Router, private afAuth: AngularFireAuth, public fb: FormBuilder) {
         this.isProgressVisible = false;
         this.firebaseErrorMessage = '';
     }
@@ -27,12 +27,20 @@ export class Signup {
             this.router.navigate(['/home']);
         }
 
-        this.signupForm = new FormGroup({
+        this.signupForm = this.fb.group({
             'firstName': new FormControl('', Validators.required),
             'lastName': new FormControl('', Validators.required),
             'email': new FormControl('', [Validators.required, Validators.email]),
-            'password': new FormControl('', Validators.required)
+            'password': new FormControl('', Validators.required),
+            'confirmPassword': new FormControl('', [Validators.required])
+        }, {
+            validators:this.passwordMatch('password', 'confirmPassword')
         });
+
+    }
+
+    get all() {
+        return this.signupForm.controls;
     }
 
     get firstName() {
@@ -51,6 +59,10 @@ export class Signup {
         return this.signupForm.get('password');
     }
 
+    get confirmPassword() {
+        return this.signupForm.get('confirmPassword');
+    }
+
     signup() {
         if (this.signupForm.invalid)  // if there's an error in the form, don't submit it
             return;
@@ -64,6 +76,24 @@ export class Signup {
         }).catch(() => {
             this.isProgressVisible = false;
         });
+    }
+
+    passwordMatch(password:any, confirmPassword:any) {
+        return (formGroup:FormGroup) => {
+
+            const passwordcontrol = formGroup.controls[password];
+            const confirmpasswordcontrol = formGroup.controls[confirmPassword];
+
+            if(confirmpasswordcontrol.errors && !confirmpasswordcontrol.errors['passwordMatch']) {
+                return;
+            }
+
+            if (passwordcontrol.value !== confirmpasswordcontrol.value) {
+                confirmpasswordcontrol.setErrors({ passwordMatch: true });
+            } else {
+                confirmpasswordcontrol.setErrors(null);
+            }
+        }
     }
 
 }

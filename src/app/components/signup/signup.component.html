@@ -1,4 +1,4 @@
-<div class="custom-container">
+<div class="custom-container pb-5">
     <div class="row mb-4 my-lg-0">
         <div class="col-md-6">
             <div class="my-3">
@@ -60,6 +60,16 @@
                 </div>
                 <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : password && password.invalid && password.touched}">
                     Please enter a valid password
+                </div>
+
+                <div class="form-panel">
+                    <div class="form-row">
+                        <input type="password" name="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" [ngClass]="{'invalid' : confirmPassword && confirmPassword.invalid && confirmPassword.touched, 'valid' : confirmPassword && confirmPassword.valid && confirmPassword.touched}">
+                        <br>
+                    </div>
+                </div>
+                <div class="text-center error-text" style="color:red; visibility:hidden;" [ngClass]="{'show' : all['confirmPassword'].getError('passwordMatch')!=null}">
+                    Passwords do not match
                 </div>
         
                 <div class="d-flex justify-content-center mt-2" *ngIf="signupForm.invalid">
