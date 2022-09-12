@@ -6,8 +6,8 @@ import { Observable, Subscription} from 'rxjs';
 import { AuthService } from '../../services/auth.service'
 import { DatabaseService } from "src/app/services/database.service";
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { IPost } from "src/app/models/IPost";
 import { ActivatedRoute, Router } from "@angular/router";
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'create-post',
@@ -23,26 +23,32 @@ export class CreatePost implements OnInit, OnDestroy {
     isProgressVisible: boolean;
     postForm: FormGroup;
     firebaseErrorMessage: string;
-    postData: IPost[] = [];
     postSubscription!: Subscription;
     fadeForm = false;
     modalSuccess = false;
     errorMessage: any;
+    currentDate: any;
 
+    // Post Colors
     bgBluePost = false;
     bgGreenPost = false;
     bgYellowPost = false;
     bgBrownPost = false;
     bgPurplePost = false;
     bgPinkPost = false;
+    bgGreyPost = false;
+    bgRedPost = false;
+    bgDefaultPost = true;
 
-    constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private db: AngularFireDatabase, private dbservice: DatabaseService, private router: Router, private route: ActivatedRoute) {
+    constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private db: AngularFireDatabase, private dbservice: DatabaseService, private router: Router, private route: ActivatedRoute, public datepipe: DatePipe) {
+        let currentDateTime = this.datepipe.transform((new Date), 'short');
         this.user = fireAuth.user;
         this.isProgressVisible = false;
         
         this.postForm = new FormGroup({
             'name': new FormControl('', [Validators.required]),
             'email': new FormControl('', [Validators.required]),
+            'date': new FormControl('', [Validators.required]),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
             'title': new FormControl('', [Validators.required]),
@@ -50,6 +56,7 @@ export class CreatePost implements OnInit, OnDestroy {
         });
         
         this.firebaseErrorMessage = '';
+        this.currentDate = currentDateTime;
 
     }
 
@@ -115,14 +122,12 @@ export class CreatePost implements OnInit, OnDestroy {
                 }
                 
             });
-            
-            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
-                this.postData = data;
-            })
     
             setTimeout(() => {
                 this.postForm.get('name')?.setValue(this.username);
                 this.postForm.get('email')?.setValue(this.email);
+                this.postForm.get('date')?.setValue(this.currentDate);
+                this.postForm.get('color')?.setValue('default');
             }, 1000);
         } catch (error) {
             console.log(error);
@@ -150,6 +155,9 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     greenPost() {
@@ -160,6 +168,9 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     yellowPost() {
@@ -170,6 +181,9 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     brownPost() {
@@ -180,6 +194,9 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     purplePost() {
@@ -190,6 +207,9 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgBrownPost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     pinkPost() {
@@ -200,6 +220,48 @@ export class CreatePost implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgBrownPost = false;
         this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    greyPost() {
+        this.postForm.get('color')?.setValue('grey');
+        this.bgGreyPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    redPost() {
+        this.postForm.get('color')?.setValue('red');
+        this.bgRedPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    defaultPost() {
+        this.postForm.get('color')?.setValue('default');
+        this.bgDefaultPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
     }
 
     logout(): void {
