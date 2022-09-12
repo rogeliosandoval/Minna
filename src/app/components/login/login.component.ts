@@ -52,7 +52,7 @@ export class Login {
         this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password).then((result: { isValid: boolean; message: string; } | null) => {
             this.isProgressVisible = false;  // no matter what, when the auth service returns, we hide the progress indicator
             if (result == null) {  // null is success, false means there was an error
-                console.log('logging in...');
+                // console.log('logging in...');
                 this.router.navigate(['/home']);  // when the user is logged in, navigate them home
             }
             else if (result.isValid == false) {
@@ -61,6 +61,5 @@ export class Login {
             }
         });
     }
-
 
 }
