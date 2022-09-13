@@ -22,6 +22,10 @@ export class Dashboard implements OnInit, OnDestroy {
     p: number = 1;
     currentPage: any;
     pageLoading = true;
+    pageLoadingTwo = true;
+    keysToExclude: any [] = [null];
+    postsExist = false;
+    showAdd = false;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private dbservice: DatabaseService) {
         this.user = fireAuth.user;
@@ -38,12 +42,22 @@ export class Dashboard implements OnInit, OnDestroy {
                     this.user = this.afs.collection('users').doc(emailLower).valueChanges();
                     this.username = user.displayName;
                 }
+
+                this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                    this.postData = data.reverse();
+                });
+                
+                setTimeout(() => {
+                    this.pageLoadingTwo = false;
+                    if (this.postData.length === 0){
+                        this.showAdd = true;
+                    } else {
+                        this.postsExist = true;
+                    }
+                }, 600);
                 
             });
             
-            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
-                this.postData = data.reverse();
-            });
         } catch (error) {
             console.log(error);
         }

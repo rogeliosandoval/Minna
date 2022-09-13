@@ -6,6 +6,10 @@
     <img class="clipart-two" src="../../../assets/Woman-Sitting-Down-With-Laptop.svg" alt="clipart">
 </div>
 
+<div class="loading progressIndicator" *ngIf="pageLoadingTwo">
+    <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
+</div>
+
 <div class="custom-container">
     <div class="row my-lg-0">
         <div class="col-md-6">
@@ -50,7 +54,7 @@
     <!-- <div class="d-flex justify-content-center mt-1 bodyText" style="position:relative;" *ngIf="searchText == ''">
         <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
     </div> -->
-    <div class="row" *ngIf="searchText == ''">
+    <div class="posts row" *ngIf="searchText == '' && postsExist">
         <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of postData | paginate: {itemsPerPage: 15, currentPage: p}">
             <a routerLink="/posts/{{post.id}}">
                 <div class="card-big-shadow">
@@ -67,8 +71,8 @@
         </div>
     </div>
     <!-- displays all posts when using search filter -->
-    <div class="row" *ngIf="searchText !== ''">
-        <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of postData | filter:searchText">
+    <div class="row" *ngIf="searchText !== '' && postsExist">
+        <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of postData | deepFilter: searchText: ['name']">
             <a routerLink="/posts/{{post?.id}}">
                 <div class="card-big-shadow">
                     <div class="card card-just-text" data-background="color" attr.data-color="{{post?.color}}" data-radius="none">
@@ -84,10 +88,14 @@
         </div>
     </div>
     <!-- end -->
+    <div class="bodyText text-center my-5 loading" *ngIf="showAdd">
+        There are currently no posts.<br>
+        Be the first to add one!
+    </div>
     <div class="loading progressIndicator" *ngIf="pageLoading">
         <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
     </div>
-    <div class="d-flex justify-content-center my-1 pb-4 bodyText" style="position:relative;" *ngIf="searchText == ''">
+    <div class="posts d-flex justify-content-center my-1 pb-4 bodyText" style="position:relative;" *ngIf="searchText == '' && postsExist">
         <pagination-controls class="my-pagination" (pageChange)="onPageChange($event)" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

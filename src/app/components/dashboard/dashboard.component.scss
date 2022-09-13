@@ -90,16 +90,6 @@
     transform: translate(-1.5rem, 1rem);
 }
 
-.loading {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    z-index: 1;
-}
-
 .date {
     position:absolute;
     font-size:12px;
@@ -109,6 +99,45 @@
 
 button {
     font-size: 22px;
+}
+
+.posts {
+    -webkit-animation: fadeIn 1s forwards, slideInTop 0.5s forwards;
+    -moz-animation: fadeIn 1s forwards, slideInTop 0.5s forwards;
+    animation: fadeIn 1s forwards, slideInTop 0.5s forwards;
+}
+
+//fades in
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+//slides from the top
+@-webkit-keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
+}
+
+@-moz-keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
+
+}
+
+@keyframes slideInTop {
+    0% { transform: translateY(-200px); }
+    100% { transform: translateY(0); }
 }
 
 input[type="text"],
@@ -343,6 +372,16 @@ a:hover, a:focus {
     .box {
         width: 60%;
         margin: auto;
+    }
+
+    .loading {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        z-index: 1;
     }
 
     // input[type="text"],
