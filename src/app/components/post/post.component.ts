@@ -7,8 +7,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { DatabaseService } from "src/app/services/database.service";
 import { AuthService } from "src/app/services/auth.service";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IComment } from "src/app/models/IComment";
+import { DatePipe } from '@angular/common';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
     selector: 'post',
@@ -31,11 +32,16 @@ export class Post implements OnInit, OnDestroy {
     isProgressVisibleComment: boolean;
     isProgressVisibleDeleteComment: boolean;
     firebaseErrorMessage: string;
+    errorMessageComment: any;
+    errorMessageDeleteComment: any;
+    errorMessageDelete: any;
+    errorMessageUpdate: any;
+    errorMessageRefresh: any;
     postSubscription!: Subscription;
     modifyPost = false;
     fadeEditForm = false;
     fadeCommentForm = false;
-    fadePost = false;
+    fadePost = true;
     fadeComment = false;
     deletePostModal = false;
     deleteCommentModal = false;
@@ -43,6 +49,15 @@ export class Post implements OnInit, OnDestroy {
     showME = false;
     currentUserComments: IComment[] = [];
     commentId: any;
+    showComments = false;
+    isOwner = false;
+    pageLoading = true;
+    currentDate: any;
+    p: number = 1;
+    currentPage: any;
+    searchText = '';
+    avatarURL: any;
+    showEdit = false;
 
     // colors for the post
     bgBluePost = false;
@@ -51,6 +66,9 @@ export class Post implements OnInit, OnDestroy {
     bgBrownPost = false;
     bgPurplePost = false;
     bgPinkPost = false;
+    bgGreyPost = false;
+    bgRedPost = false;
+    bgDefaultPost = false;
 
     // colors for the comment
     bgDefault = false;
@@ -59,14 +77,17 @@ export class Post implements OnInit, OnDestroy {
     bgSkyBlue = false;
     bgPink = false;
 
-    constructor(private route: ActivatedRoute, private router: Router, private dbservice: DatabaseService, public fireAuth: AngularFireAuth, private afs: AngularFirestore, private db: AngularFireDatabase, private afAuth: AuthService, private modalService: NgbModal){
+    constructor(private route: ActivatedRoute, private router: Router, private dbservice: DatabaseService, public fireAuth: AngularFireAuth, private afs: AngularFirestore, private db: AngularFireDatabase, private afAuth: AuthService, public datepipe: DatePipe, private toast: HotToastService){
         this.user = fireAuth.user;
         this.isProgressVisibleUpdate = false;
         this.isProgressVisibleDelete = false;
         this.isProgressVisibleComment = false;
         this.isProgressVisibleDeleteComment = false;
+        let currentDateTime = this.datepipe.transform((new Date), 'short');
 
         this.editForm = new FormGroup({
+            'isEdited': new FormControl('', [Validators.required]),
+            'date': new FormControl('', [Validators.required]),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
             'title': new FormControl('', [Validators.required]),
@@ -74,8 +95,11 @@ export class Post implements OnInit, OnDestroy {
         });
 
         this.commentForm = new FormGroup({
+            'avatarURL': new FormControl(''),
+            'isOwner': new FormControl(''),
             'name': new FormControl('', [Validators.required]),
             'email': new FormControl('', [Validators.required]),
+            'date': new FormControl('', [Validators.required]),
             'id': new FormControl('', [Validators.required]),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
@@ -83,58 +107,102 @@ export class Post implements OnInit, OnDestroy {
         })
 
         this.firebaseErrorMessage = '';
+        this.currentDate = currentDateTime;
 
     }
     
     ngOnInit(): void {
-
-        this.fireAuth.authState.subscribe(user => {
-            if (user) {
-                let emailLower = user.email?.toLowerCase();
-                this.user = this.afs.collection('users').doc(emailLower).valueChanges();
-                this.name = user.displayName;
-                this.email = user.email;
-            }
-        })
-        
-        this.postSubscription = this.dbservice.getPostById(this.id).subscribe(data => {
-            this.postData = data;
-        })
-
-        this.postSubscription = this.dbservice.getComments(this.id).subscribe(data => {
-            this.commentData = data;
-        })
-
-        setTimeout(() => {
-            
-            // allows users to edit or delete thir own posts
-            if (this.postData.name === this.name) {
-                this.modifyPost = true;
-            } else {
-                this.modifyPost = false;
-            }
-
-            this.currentUserComments = this.commentData.map(comment=> {
-                comment.canModify = (comment.name === this.name);
-                return comment;
+        try{
+            this.fireAuth.authState.subscribe(user => {
+                if (user) {
+                    let emailLower = user.email?.toLowerCase();
+                    this.user = this.afs.collection('users').doc(emailLower).valueChanges();
+                    this.name = user.displayName;
+                    this.email = user.email;
+                    this.avatarURL = user.photoURL;
+                }
             })
+            
+            this.postSubscription = this.dbservice.getPostById(this.id).subscribe(data => {
+                this.postData = data;
+            })
+    
+            this.postSubscription = this.dbservice.getComments(this.id).subscribe(data => {
+                this.commentData = data.reverse();
+            })
+    
+            setTimeout(() => {
+                try{
+                    this.fadePost = false;
+                    this.pageLoading = false;
+                    // allows users to edit or delete thir own posts
+                    if (this.postData.name === this.name) {
+                        this.modifyPost = true;
+                        this.isOwner = true;
+                    } else {
+                        this.modifyPost = false;
+                        this.isOwner = false;
+                    }
 
-            this.changeColor();
-            this.editForm.get('author')?.setValue(this.postData.author);
-            this.editForm.get('color')?.setValue(this.postData.color);
-            this.editForm.get('title')?.setValue(this.postData.title);
-            this.editForm.get('message')?.setValue(this.postData.message);
-            this.commentForm.get('id')?.setValue(this.id);
-            this.commentForm.get('name')?.setValue(this.name);
-            this.commentForm.get('email')?.setValue(this.email);
-            this.commentForm.get('color')?.setValue('default');
+                    // this.commentData.filter((comment) => {
+                    //     if (comment.name === this.name) {
 
-        },600)
+                    //     }
+                    // })
+        
+                    this.currentUserComments = this.commentData.map(comment=> {
+                        comment.canModify = (comment.name === this.name);
+                        return comment;
+                    })
 
+                    if (this.postData.isEdited === true) {
+                        this.showEdit = true;
+                    } else {
+                        this.showEdit = false;
+                    }
+        
+                    if (this.commentData.length !== 0) {
+                        this.showComments = true;
+                    } else {
+                        this.showComments = false;
+                    }
+        
+                    this.changeColor();
+                    this.editForm.get('isEdited')?.setValue(true)
+                    this.editForm.get('date')?.setValue(this.currentDate);
+                    this.editForm.get('author')?.setValue(this.postData.author);
+                    this.editForm.get('color')?.setValue(this.postData.color);
+                    this.editForm.get('title')?.setValue(this.postData.title);
+                    this.editForm.get('message')?.setValue(this.postData.message);
+                    this.commentForm.get('id')?.setValue(this.id);
+                    this.commentForm.get('name')?.setValue(this.name);
+                    this.commentForm.get('email')?.setValue(this.email);
+                    this.commentForm.get('color')?.setValue('default');
+                    this.commentForm.get('date')?.setValue(this.currentDate);
+                    this.commentForm.get('avatarURL')?.setValue(this.avatarURL);
+                } catch (error) {
+                    this.errorMessageRefresh = 'Something went wrong. Try refreshing the page.'
+                    console.log(error);
+                }
+    
+            },1000);
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     ngOnDestroy(): void {
         this.postSubscription && this.postSubscription.unsubscribe();
+    }
+
+    // scrolls user back to the top on pagination change
+    onPageChange(page: number) {
+        this.currentPage = page;
+        window.scrollTo(0,0);
+    }
+
+    get isEdited() {
+        return this.editForm.get('isEdited');
     }
     
     get author() {
@@ -190,6 +258,15 @@ export class Post implements OnInit, OnDestroy {
             case "pink":
                 this.pinkPost();
                 break;
+            case "grey":
+                this.greyPost();
+                break;
+            case "red":
+                this.redPost();
+                break;
+            case "default":
+                this.defaultPost();
+                break;
         }
     }
 
@@ -201,6 +278,9 @@ export class Post implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     greenPost() {
@@ -211,6 +291,9 @@ export class Post implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     yellowPost() {
@@ -221,6 +304,9 @@ export class Post implements OnInit, OnDestroy {
         this.bgBrownPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     brownPost() {
@@ -231,6 +317,9 @@ export class Post implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgPurplePost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     purplePost() {
@@ -241,6 +330,9 @@ export class Post implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgBrownPost = false;
         this.bgPinkPost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
     }
 
     pinkPost() {
@@ -251,6 +343,48 @@ export class Post implements OnInit, OnDestroy {
         this.bgYellowPost = false;
         this.bgBrownPost = false;
         this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    greyPost() {
+        this.editForm.get('color')?.setValue('grey');
+        this.bgGreyPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgRedPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    redPost() {
+        this.editForm.get('color')?.setValue('red');
+        this.bgRedPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgDefaultPost = false;
+    }
+
+    defaultPost() {
+        this.editForm.get('color')?.setValue('default');
+        this.bgDefaultPost = true;
+        this.bgPinkPost = false;
+        this.bgBluePost = false;
+        this.bgGreenPost = false;
+        this.bgYellowPost = false;
+        this.bgBrownPost = false;
+        this.bgPurplePost = false;
+        this.bgGreyPost = false;
+        this.bgRedPost = false;
     }
 
     default() {
@@ -294,19 +428,41 @@ export class Post implements OnInit, OnDestroy {
         this.bgSkyBlue = false;
     }
 
-    onComment() {
-        this.fadeCommentForm = true;
-        this.isProgressVisibleComment = true;
-        const ref = this.db.list("posts/"+this.id+"/comments");
-        ref.push(this.commentForm.value);
-        setTimeout(() => {
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['./'], {
-                relativeTo: this.route,
-                queryParamsHandling: 'merge'  // keep params on reload
-            })
-        }, 1000)
+    async onComment() {
+        try{
+            this.fadeCommentForm = true;
+            this.isProgressVisibleComment = true;
+    
+            // checking to see if user is the author or not
+            if(this.postData.name === this.name && this.commentForm.get('author')?.value !== 'Anonymous') {
+                this.commentForm.get('isOwner')?.setValue(true);
+            } else {
+                this.commentForm.get('isOwner')?.setValue(false);
+            }
+    
+            const ref = this.db.list("posts/"+this.id+"/comments");
+            await ref.push(this.commentForm.value);
+            setTimeout(() => {
+                this.toast.success("Comment added", {
+                    style: {
+                    border: '2px solid #dff5ff',
+                    padding: '16px',
+                    color: 'black',
+                }});
+                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+                this.router.onSameUrlNavigation = 'reload';
+                this.router.navigate(['./'], {
+                    relativeTo: this.route,
+                    queryParamsHandling: 'merge'  // keep params on reload
+                })
+            }, 1000)
+        } catch (error) {
+            this.fadeCommentForm = false;
+            this.isProgressVisibleComment = false;
+            this.errorMessageComment = 'Something went wrong, try again.'
+            console.log(error);
+        }
+
     }
 
     onDeleteComment(commentid:any) {
@@ -314,38 +470,69 @@ export class Post implements OnInit, OnDestroy {
         this.deleteCommentModal = true;
     }
 
-    deleteComment() {
-        this.deleteCommentModal = false;
-        this.fadeComment = true;
-        this.isProgressVisibleDeleteComment = true;
-        this.dbservice.deleteComment(this.id,this.commentId);
-        setTimeout(() => {
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['./'], {
-                relativeTo: this.route,
-                queryParamsHandling: 'merge'  // keep params on reload
-            })
-        }, 1000)
+    async deleteComment() {
+        try {
+            this.deleteCommentModal = false;
+            this.fadeComment = true;
+            this.isProgressVisibleDeleteComment = true;
+            await this.dbservice.deleteComment(this.id, this.commentId);
+            setTimeout(() => {
+                this.toast.show('Comment Deleted', {
+                    icon: '🗑️',
+                    style: {
+                    border: '2px solid #dff5ff',
+                    padding: '16px',
+                    color: 'black',
+                    }
+                });
+                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+                this.router.onSameUrlNavigation = 'reload';
+                this.router.navigate(['./'], {
+                    relativeTo: this.route,
+                    queryParamsHandling: 'merge' // keep params on reload
+                });
+            }, 1000)
+        } catch (error) {
+            this.deleteCommentModal = false;
+            this.fadeComment = false;
+            this.isProgressVisibleDeleteComment = false;
+            this.errorMessageDeleteComment = 'Something went wrong, try again.'
+            console.log(error);
+        }
     }
 
-    onUpdate() {
-        this.fadeEditForm = true;
-        this.isProgressVisibleUpdate = true;
-        this.db.object("/posts/"+this.id).update({
-            author: this.editForm.controls["author"].value,
-            color: this.editForm.controls["color"].value,
-            title: this.editForm.controls["title"].value,
-            message: this.editForm.controls["message"].value
-        })
-        setTimeout(() => {
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['./'], {
-                relativeTo: this.route,
-                queryParamsHandling: 'merge'  // keep params on reload
+    async onUpdate() {
+        try {
+            this.fadeEditForm = true;
+            this.isProgressVisibleUpdate = true;
+            await this.db.object("/posts/"+this.id).update({
+                isEdited: this.editForm.controls["isEdited"].value,
+                date: this.editForm.controls["date"].value,
+                author: this.editForm.controls["author"].value,
+                color: this.editForm.controls["color"].value,
+                title: this.editForm.controls["title"].value,
+                message: this.editForm.controls["message"].value
             })
-        }, 1000)
+            setTimeout(() => {
+                this.toast.success("Post updated successfully", {
+                    style: {
+                    border: '2px solid #dff5ff',
+                    padding: '16px',
+                    color: 'black',
+                }});
+                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+                this.router.onSameUrlNavigation = 'reload';
+                this.router.navigate(['./'], {
+                    relativeTo: this.route,
+                    queryParamsHandling: 'merge'  // keep params on reload
+                })
+            }, 1000)
+        } catch (error) {
+            this.fadeEditForm = false;
+            this.isProgressVisibleUpdate = false;
+            this.errorMessageUpdate = 'Something went wrong, try again.'
+            console.log(error);
+        }
     }
 
     // triggers the modal to appear
@@ -360,18 +547,25 @@ export class Post implements OnInit, OnDestroy {
     }
 
     // function that does the actual deletion of a post
-    deletePost() {
-        this.deletePostModal = false;
-        this.fadePost = true;
-        this.isProgressVisibleDelete = true;
-        this.dbservice.deletePost(this.id);
-        setTimeout(() => {
-            this.isProgressVisibleDelete = false;
-            this.modalSuccess = true;
+    async deletePost() {
+        try{
+            this.deletePostModal = false;
+            this.fadePost = true;
+            this.isProgressVisibleDelete = true;
+            await this.dbservice.deletePost(this.id);
             setTimeout(() => {
-                this.router.navigate(['/dashboard']);
-            }, 2000)
-        }, 1000)
+                this.isProgressVisibleDelete = false;
+                this.modalSuccess = true;
+                setTimeout(() => {
+                    this.router.navigate(['/dashboard']);
+                }, 2000)
+            }, 1000)
+        } catch (error) {
+            this.fadePost = false;
+            this.isProgressVisibleDelete = false;
+            this.errorMessageDelete = 'Something went wrong, try again.'
+            console.log(error);
+        }
     }
 
     logout(): void {

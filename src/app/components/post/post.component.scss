@@ -77,6 +77,14 @@
     background-color: pink !important;
 }
 
+.red {
+    background-color: rgb(255, 137, 137) !important;
+}
+
+.grey {
+    background-color: rgb(189, 189, 189) !important;
+}
+
 
 .box {
     width: 90%;
@@ -115,7 +123,18 @@
 }
 
 .fade {
+    position: relative;
+    isolation: isolate;
     opacity: 0.7;
+}
+
+.fade:after {
+    content: '';
+    position: absolute;
+    inset:0;
+    background:black;
+    opacity:0;
+    z-index:2
 }
 
 .custom-modal {
@@ -165,7 +184,7 @@
 
 .avatar {
     width: 100px;
-    border-radius: 50%;
+    border-radius: 10%;
 }
 
 .loading {
@@ -175,10 +194,53 @@
     -ms-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
+    z-index: 1;
+}
+
+.badge {
+    position: absolute;
+    top:-23px;
+    right:7px;
+    padding-top:8px;
+    padding-left:15px;
+    font-size: 20px;
+    float: right;
+}
+
+.date {
+    position:absolute;
+    font-size:20px;
+    padding:20px;
+    opacity: 0.4;
+}
+
+.smallDate {
+    position:absolute;
+    left:2px;
+    top:-5px;
+    font-size:13px;
+    padding:15px;
+    opacity: 0.3;
+}
+
+.my-pagination {
+    transform: translate(-1.5rem, 1rem);
 }
 
 button {
     font-size: 22px;
+}
+
+.modify {
+    -webkit-animation: fadeIn 0.5s forwards;
+    -moz-animation: fadeIn 0.5s forwards;
+    animation: fadeIn 0.5s forwards;
+}
+
+.comments {
+    -webkit-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    -moz-animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
+    animation: fadeIn 0.5s forwards, slideInTop 0.4s forwards;
 }
 
 input[type="text"],
@@ -300,6 +362,14 @@ textarea {
     .comment {
         padding:50px;
         width:70%;
+    }
+
+    .color-buttons {
+        margin:auto;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding-left: 20px;
+        padding-right: 20px;
     }
     
 }
