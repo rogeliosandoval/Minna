@@ -71,6 +71,24 @@
     line-height: 1.4em;
 }
 
+.noPostText {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    right: 0;
+    margin-top: -9px;
+}
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    z-index: 1;
+}
+
 .mat-icon{
     height:25px !important;
     width:25px !important;
