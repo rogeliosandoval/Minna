@@ -1,3 +1,19 @@
+<div class="image-two d-none d-lg-block">
+    <img class="clipart-two" src="../../../assets/placeholder.svg" alt="clipart">
+</div>
+<div class="custom-modal" *ngIf="changeAvatar">
+    <button (click)="removeModal()" class="exit m-2" mat-raised-button color="primary" style="background-color:rgb(255, 49, 49) !important; color:white;">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Nevermind</span>
+    </button>
+    <div class="modal-container">
+        <div class="m-content">
+            <div class="text-center">
+                <img *ngFor="let avatar of avatars" class="art m-2" (click)="updateAvatar(avatar.path)" src="{{avatar.path}}" alt="avatar">
+            </div>
+        </div>
+    </div>
+</div>
 <div class="custom-container">
     <div class="row my-lg-0">
         <div class="col-md-6">
@@ -23,19 +39,37 @@
                   <mat-icon>logout</mat-icon>
                   <span>Log out</span>
                 </button>
-              </div>
+            </div>
         </div>
     </div>
+    <!-- {{ (user | async)?.photoURL }} -->
     <div class="box-container my-4 my-lg-0">
+        <div class="image-three d-none d-lg-block">
+            <img class="clipart-three" src="../../../assets/tree.svg" alt="clipart">
+        </div>
+        <div class="image-four d-none d-lg-block">
+            <img class="clipart-four" src="../../../assets/moon.svg" alt="clipart">
+        </div>
+        <div class="image-one d-none d-lg-block">
+            <div class="float-right text-right">
+                <div class="bodyText mb-2 pr-3" style="font-size:20px;">
+                    Notebook
+                </div>
+                <img routerLink="/notebook" class="clipart-one" src="../../../assets/notebook.svg" alt="clipart">
+            </div>
+        </div>
         <div class="box">
-            <div class="titleText text-center mb-1">
+            <div class="titleText text-center mb-1 mb-lg-0">
                 {{ (user | async)?.fullName }}
             </div>
             <div class="row my-1 my-lg-5">
-                <div class="col-lg-6 my-4 my-lg-auto">
+                <div class="profile-container col-lg-6 my-4 my-lg-auto" *ngIf="user | async as user">
                     <div class="d-flex justify-content-center">
-                        <img class="avatar" src="../../../assets/Linux-Smiley.svg" alt="avatar">
+                        <img class="avatar" [src]="(userAvatar ?? 'assets/placeholder.svg')" alt="avatar">
                     </div>
+                    <button mat-mini-fab style="width:50px; height:50px" (click)="openModal()">
+                        <mat-icon style="font-size:25px !important;">edit</mat-icon>
+                    </button>
                 </div>
                 <div class="col-lg-6 my-auto">
                     <div class="bodyText">
@@ -50,6 +84,12 @@
                     </div>
                 </div>
             </div>
+            <div class="d-block d-lg-none text-center">
+                <div class="bodyText mt-4 mb-2" style="font-size:20px;">
+                    Notebook
+                </div>
+                <img routerLink="/notebook" class="clipart-one-mobile" src="../../../assets/notebook.svg" alt="clipart">
+            </div>
         </div>
     </div>
     <div class="mt-5 titleText text-center">
@@ -60,25 +100,37 @@
             You don't have any posts yet.
         </div>
         <div class="d-flex justify-content-center mt-3">
-            <button routerLink="/create-post" mat-raised-button color="primary" style="background-color:lightgreen !important;">
+            <button routerLink="/create-post" mat-raised-button color="primary" style="background-color:rgb(14, 153, 14) !important; color:white;">
                 <mat-icon>add_box</mat-icon>
                 <span> Add Post</span>
             </button>
         </div>
     </div>
-    <div class="posts row" *ngIf="showPosts">
-        <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of userData">
-            <a routerLink="/posts/{{post.id}}">
-                <div class="card-big-shadow">
-                    <div class="card card-just-text" data-background="color" attr.data-color="{{post.color}}" data-radius="none">
-                        <div class="content">
-                            <h6 class="author mb-2">{{post.author}}</h6>
-                            <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
-                            <p class="message">{{post.message | truncate:100}}</p>
-                        </div>
-                    </div> <!-- end card -->
-                </div>
-            </a>
+    <div class="posts" *ngIf="showPosts">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 content-card" *ngFor="let post of userData | paginate: {itemsPerPage: 9, currentPage: p}">
+                <a routerLink="/posts/{{post.id}}">
+                    <div class="card-big-shadow">
+                        <div class="card card-just-text" data-background="color" attr.data-color="{{post.color}}" data-radius="none">
+                            <h6 class="date"><span *ngIf="post.isEdited">Edited • </span>{{post.date | dateAgo}}</h6>
+                            <div class="content">
+                                <h6 class="author mb-2">{{post.author}}</h6>
+                                <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
+                                <p class="message">{{post.message | truncate:100}}</p>
+                            </div>
+                        </div> <!-- end card -->
+                    </div>
+                </a>
+            </div>
         </div>
+        <div class="d-lg-flex d-none justify-content-center my-4 pb-5 bodyText" style="position:relative;" *ngIf="searchText == ''">
+            <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <div class="d-flex d-lg-none justify-content-center my-1 pb-4 bodyText" style="position:relative;" *ngIf="searchText == ''">
+            <pagination-controls class="my-pagination" (pageChange)="onPageChange($event)" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+    <div class="loading progressIndicator" *ngIf="pageLoading">
+        <mat-progress-spinner class=" example-margin" color="secondary" mode="indeterminate"></mat-progress-spinner>
     </div>
 </div>
