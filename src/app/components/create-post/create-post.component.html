@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>
-<div class="custom-container pb-4">
+<div class="custom-container pb-4" [ngClass]="{ fade: fadeForm}">
     <div class="row my-lg-0">
         <div class="col-md-6">
             <div class="my-3">
@@ -50,7 +50,7 @@
               </div>
         </div>
     </div>
-    <div class="my-5">
+    <div class="my-5" [ngClass]="{ fade: fadeForm}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="d-flex justify-content-center mb-3 my-lg-auto">
@@ -91,7 +91,7 @@
                 <div class="bodyText text-center mt-2">
                     Pick a Color!
                 </div>
-                <div class="text-center d-lg-flex justify-content-center my-2">
+                <div class="color-buttons text-center d-lg-flex justify-content-center my-2">
                     <button class="mx-2 mx-lg-1 mb-3 mb-lg-2" style="background-color:#fff2c7;" mat-raised-button color="primary" (click)="defaultPost()">Default</button>
                     <button class="mx-2 mx-lg-1 mb-3 mb-lg-2" style="background-color:rgb(184,216,215);" mat-raised-button color="primary" (click)="bluePost()">Blue</button>
                     <button class="mx-2 mx-lg-1 mb-3 mb-lg-2" style="background-color:rgb(213,229,163);" mat-raised-button color="primary" (click)="greenPost()">Green</button>
