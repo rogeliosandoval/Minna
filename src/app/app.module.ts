@@ -5,6 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TruncatePipe } from './transform.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { DatePipe } from '@angular/common';
+import { DateAgoPipe } from './date-ago.pipe';
+import { Ng2DeepSearchPipe } from './custom-search.pipe';
 
 //Pages
 import { AppComponent } from './app.component';
@@ -12,8 +16,11 @@ import { Home } from './components/home/home.component';
 import { Login } from './components/login/login.component';
 import { Signup } from './components/signup/signup.component';
 import { Dashboard } from './components/dashboard/dashboard.component';
+import { Notebook } from './components/notebook/notebook.component';
+import { Note } from './components/note/note.component';
 import { Post } from './components/post/post.component';
 import { CreatePost } from './components/create-post/create-post.component';
+import { CreateNote } from './components/create-note/create-note.component';
 import { Profile } from './components/profile/profile.component';
 import { AdminDashboard } from './components/admin-dashboard/admin-dashboard.component';
 import { ForgotPassword } from './components/forgot-password/forgot-password.component';
@@ -23,6 +30,7 @@ import { Logout } from './components/logout/logout.component';
 //Services
 import { AuthGuard } from './services/auth.guard';
 import { AuthAdminGuard } from './services/auth-admin.guard';
+import { AuthNonuserGuard } from './services/auth-nonuser.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
@@ -70,21 +78,27 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { HotToastModule } from '@ngneat/hot-toast';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: Home },
-  { path: 'login', component: Login, data: { animation: 'fader' } },
-  { path: 'signup', component: Signup, data: { animation: 'fader' } },
+  { path: 'login', component: Login, data: { animation: 'fader' }, canActivate: [AuthNonuserGuard] },
+  { path: 'signup', component: Signup, data: { animation: 'fader' }, canActivate: [AuthNonuserGuard] },
   { path: 'dashboard', component: Dashboard, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'notebook', component: Notebook, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'notes', component: Notebook, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'notes/:id', component: Note, data: { animation: 'fader' }, canActivate: [AuthGuard] },
   { path: 'posts', component: Dashboard, data: { animation: 'fader' }, canActivate: [AuthGuard] },
   { path: 'posts/:id', component: Post, data: { animation: 'fader' }, canActivate: [AuthGuard] },
   { path: 'create-post', component: CreatePost, data: { animation: 'fader' }, canActivate: [AuthGuard] },
+  { path: 'create-note', component: CreateNote, data: { animation: 'fader' }, canActivate: [AuthGuard] },
   { path: 'profile', component: Profile, data: { animation: 'fader' }, canActivate: [AuthGuard] },
   { path: 'admin-dashboard', component: AdminDashboard, data: { animation: 'fader' } , canActivate: [AuthAdminGuard] },
   { path: 'forgot-password', component: ForgotPassword, data: { animation: 'fader' } },
   { path: 'verify-email', component: VerifyEmail, data: { animation: 'fader' } },
-  { path: 'logout', component: Logout, data: { animation: 'fader' } },
+  { path: 'logout', component: Logout, data: { animation: 'fader' }, canActivate: [AuthNonuserGuard] },
   { path: '**', component: Home }
 ]
 
@@ -95,14 +109,19 @@ const routes: Routes = [
     Login,
     Signup,
     Dashboard,
+    Notebook,
+    Note,
     Post,
     CreatePost,
+    CreateNote,
     Profile,
     AdminDashboard,
     ForgotPassword,
     VerifyEmail,
     Logout,
-    TruncatePipe
+    TruncatePipe,
+    DateAgoPipe,
+    Ng2DeepSearchPipe
   ],
   imports: [
     BrowserModule,
@@ -111,6 +130,7 @@ const routes: Routes = [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     MatAutocompleteModule,
     MatBadgeModule,
     MatButtonModule,
@@ -151,10 +171,13 @@ const routes: Routes = [
     AngularFireModule,
     AngularFirestoreModule,
     AngularFireDatabaseModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgxPaginationModule,
+    HotToastModule.forRoot()
   ],
   providers: [
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase, },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
