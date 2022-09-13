@@ -1,9 +1,10 @@
 import { AnimationDriver } from '@angular/animations/browser';
 import { Injectable } from '@angular/core';
+import { authState, updateProfile, UserInfo, Auth } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, concatMap, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
 
   userLoggedIn: boolean | undefined;
+  currentUser$ = authState(this.auth);
 
-  constructor(private router: Router, private fireAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(private router: Router, private fireAuth: AngularFireAuth, private afs: AngularFirestore, private auth: Auth) {
     this.userLoggedIn = false;
 
     this.fireAuth.onAuthStateChanged((user) => { // set up a subscription to always know the login status of the user
@@ -27,9 +29,9 @@ export class AuthService {
 
   loginUser(email: string, password: string): Promise<any> {
     return this.fireAuth.signInWithEmailAndPassword(email, password)
-    // .then(() => {
-    //   console.log('Auth Service: loginUser: success');  // this.router.navigate(['/dashboard']);
-    // })
+    .then(() => {
+      console.log('Auth Service: loginUser: success');  // this.router.navigate(['/dashboard']);
+    })
     .catch(error => {
       console.log('Auth Service: login error...');
       console.log('error code', error.code);
@@ -45,7 +47,7 @@ export class AuthService {
       let emailLower = user.email.toLowerCase();
 
       this.afs.doc('/users/' + emailLower)  // on a successful signup, create a document in 'users' collection with the new user's info
-        .set({
+        .set({ 
           accountType: 'endUser',
           firstName: user.firstName,
           lastName: user.lastName,
@@ -119,6 +121,13 @@ export class AuthService {
 
   getCurrentUser() {
     return this.fireAuth.currentUser;  // returns user object for logged-in users, otherwise returns null 
+  }
+
+  async UpdateProfile(photoURL: string) {
+    const profile = {
+      photoURL: photoURL
+    }
+    return (await this.fireAuth.currentUser)?.updateProfile(profile);
   }
 
 }

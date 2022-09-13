@@ -3,14 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { IPost } from '../models/IPost';
 import { IComment } from '../models/IComment';
-import { map } from 'rxjs';
+import { INote } from '../models/INote';
+import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage'
+import { from, map, Observable, of, switchMap } from 'rxjs';
+import { doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
 
-  constructor(private http: HttpClient, private db: AngularFireDatabase) {}
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private storage: Storage, private firestore: Firestore, private fireAuth: AuthService) {}
 
   getPosts() {
     return this.http.get<{[id: string]: IPost}>('https://minna-c691d-default-rtdb.firebaseio.com/posts.json').pipe(map(posts => {
@@ -34,6 +38,24 @@ export class DatabaseService {
       }
       return commentData;
     }));
+  }
+
+  getNotes() {
+    return this.http.get<{[id: string]: INote}>('https://minna-c691d-default-rtdb.firebaseio.com/notes.json').pipe(map(notes => {
+      let noteData: INote[] = [];
+      for(let id in notes) {
+        noteData.push({ ...notes[id], id})
+      }
+      return noteData;
+    }));
+  }
+
+  getNotesById(id:any) {
+    return this.http.get('https://minna-c691d-default-rtdb.firebaseio.com/notes/'+id+'.json');
+  }
+
+  async deleteNote(id:any) {
+    await this.db.object("/notes/"+id).remove();
   }
 
   async deletePost(id:any) {
