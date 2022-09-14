@@ -47,7 +47,7 @@
             <span> Add Post</span>
         </button>
     </div>
-    <div class="d-flex justify-content-center d-lg-block" *ngIf="searchText == '' && postsExist">
+    <div class="d-flex justify-content-center d-lg-block" *ngIf="postsExist">
         <mat-icon>search</mat-icon>
         <input type="text" placeholder="Search" [(ngModel)]="searchText">
     </div>
