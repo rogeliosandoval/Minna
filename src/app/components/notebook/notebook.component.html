@@ -35,15 +35,17 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-3" *ngIf="showNotes">
+</div>
+<div class="container mb-2 mb-lg-5 pb-lg-5">
+    <div class="d-flex justify-content-center my-4 my-lg-auto float-lg-right" *ngIf="showNotes">
         <button routerLink="/create-note" mat-raised-button color="primary" style="background-color:rgb(14, 153, 14) !important; color:white;">
             <mat-icon>add_box</mat-icon>
             <span> Add Note</span>
         </button>
     </div>
-    <div class="mt-5 titleText text-center">
+    <!-- <div class="mt-5 titleText text-center">
         Your Notes
-    </div>
+    </div> -->
     <div class="nopost" *ngIf="showAdd">
         <div class="text-center bodyText">
             You don't have any notes yet.
@@ -55,9 +57,45 @@
             </button>
         </div>
     </div>
-    <div class="posts" *ngIf="showNotes">
+    <div class="d-flex justify-content-center my-4 my-lg-auto float-lg-left" *ngIf="showNotes">
+        <div class="row">
+            <div class="my-auto">
+                <mat-icon>search</mat-icon>
+            </div>
+            <div class="my-auto">
+                <input type="text" placeholder="Search" [(ngModel)]="searchText">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-container">
+    <div class="posts" *ngIf="searchText == '' && showNotes">
         <div class="row">
             <div class="col-lg-4 col-md-6 content-card" *ngFor="let note of noteData | paginate: {itemsPerPage: 9, currentPage: p}">
+                <a routerLink="/notes/{{note.id}}">
+                    <div class="card-big-shadow">
+                        <div class="card card-just-text" data-background="color" attr.data-color="{{note.color}}" data-radius="none">
+                            <h6 class="date"><span *ngIf="note.isEdited">Edited • </span>{{note.date | dateAgo}}</h6>
+                            <div class="content">
+                                <h4 class="title" style="color:rgb(93, 93, 93);">{{note.title | truncate:28}}</h4>
+                                <p class="message">{{note.message | truncate:100}}</p>
+                            </div>
+                        </div> <!-- end card -->
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="d-lg-flex d-none justify-content-center my-4 pb-5 bodyText" style="position:relative;" *ngIf="searchText == ''">
+            <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <div class="d-flex d-lg-none justify-content-center my-1 pb-4 bodyText" style="position:relative;" *ngIf="searchText == ''">
+            <pagination-controls class="my-pagination" (pageChange)="onPageChange($event)" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+    <!--SEARCH-->
+    <div class="posts" *ngIf="searchText !== '' && showNotes">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 content-card" *ngFor="let note of noteData | filter: searchText">
                 <a routerLink="/notes/{{note.id}}">
                     <div class="card-big-shadow">
                         <div class="card card-just-text" data-background="color" attr.data-color="{{note.color}}" data-radius="none">

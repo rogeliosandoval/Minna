@@ -172,7 +172,18 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-
+input{
+    color: black;
+    font-size: 17px;
+    padding: 14px 18px;
+    height: 40px;
+    border: none;
+    outline: none;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.555);
+    margin: 10px;
+    border-radius: 3px;
+    background:rgba(255, 255, 255, 0.52);
+}
 
 button {
     font-size: 22px;
@@ -418,6 +429,23 @@ a:hover, a:focus {
     
     .modal-container {
         max-width: 750px;
+    }
+
+    input{
+        color: black;
+        font-size: 20px;
+        padding: 14px 18px;
+        line-height: 35px;
+        height: 40px;
+        border: none;
+        outline: none;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.555);
+        // border-left: 3px solid black;
+        margin: 10px;
+        border-radius: 3px;
+        flex-grow: 1;
+        background:rgba(255, 255, 255, 0.52);
+        transition: 0.5s linear;
     }
 
 }
