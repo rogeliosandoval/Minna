@@ -6,6 +6,10 @@
     margin-left: auto;
 }
 
+.custom-container, .container {
+    overflow-x: hidden;
+}
+
 .box-container {
     position: relative;
     margin: 0 auto;

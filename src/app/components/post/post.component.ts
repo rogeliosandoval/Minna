@@ -439,6 +439,9 @@ export class Post implements OnInit, OnDestroy {
             } else {
                 this.commentForm.get('isOwner')?.setValue(false);
             }
+
+            let currentDateTime = this.datepipe.transform((new Date), 'short');
+            this.currentDate = currentDateTime;
     
             const ref = this.db.list("posts/"+this.id+"/comments");
             await ref.push(this.commentForm.value);
@@ -505,6 +508,8 @@ export class Post implements OnInit, OnDestroy {
         try {
             this.fadeEditForm = true;
             this.isProgressVisibleUpdate = true;
+            let currentDateTime = this.datepipe.transform((new Date), 'short');
+            this.currentDate = currentDateTime;
             await this.db.object("/posts/"+this.id).update({
                 isEdited: this.editForm.controls["isEdited"].value,
                 date: this.editForm.controls["date"].value,

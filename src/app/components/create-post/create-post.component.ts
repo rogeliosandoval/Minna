@@ -84,6 +84,8 @@ export class CreatePost implements OnInit, OnDestroy {
         try {
             this.fadeForm = true;
             this.isProgressVisible = true;
+            let currentDateTime = this.datepipe.transform((new Date), 'short');
+            this.currentDate = currentDateTime;
             const ref = this.db.list("posts");
             await ref.push(this.postForm.value);
     

@@ -96,6 +96,8 @@ export class CreateNote implements OnInit, OnDestroy {
         try{
             this.fadeNoteForm = true;
             this.isProgressVisibleNote = true;
+            let currentDateTime = this.datepipe.transform((new Date), 'short');
+            this.currentDate = currentDateTime;
             const ref = this.db.list("notes");
             await ref.push(this.noteForm.value);
             setTimeout(() => {
