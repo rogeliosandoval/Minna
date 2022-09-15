@@ -38,6 +38,7 @@ export class Note implements OnInit, OnDestroy {
     showME = false;
     pageLoading = true;
     currentDate: any;
+    currentDateEdit: any;
     p: number = 1;
     currentPage: any;
     searchText = '';
@@ -59,18 +60,16 @@ export class Note implements OnInit, OnDestroy {
         this.user = fireAuth.user;
         this.isProgressVisibleUpdate = false;
         this.isProgressVisibleDelete = false;
-        let currentDateTime = this.datepipe.transform((new Date), 'short');
 
         this.editForm = new FormGroup({
             'isEdited': new FormControl('', [Validators.required]),
-            'date': new FormControl('', [Validators.required]),
+            'date': new FormControl(''),
             'color': new FormControl('', [Validators.required]),
             'title': new FormControl('', [Validators.required]),
             'message': new FormControl('', [Validators.required, Validators.maxLength(3000)])
         });
 
         this.firebaseErrorMessage = '';
-        this.currentDate = currentDateTime;
 
     }
     
@@ -103,7 +102,6 @@ export class Note implements OnInit, OnDestroy {
                     this.pageLoading = false;
                     this.changeColor();
                     this.editForm.get('isEdited')?.setValue(true);
-                    this.editForm.get('date')?.setValue(this.currentDate);
                     this.editForm.get('color')?.setValue(this.noteData.color);
                     this.editForm.get('title')?.setValue(this.noteData.title);
                     this.editForm.get('message')?.setValue(this.noteData.message);
@@ -291,7 +289,8 @@ export class Note implements OnInit, OnDestroy {
             this.fadeEditForm = true;
             this.isProgressVisibleUpdate = true;
             let currentDateTime = this.datepipe.transform((new Date), 'short');
-            this.currentDate = currentDateTime;
+            this.currentDateEdit = currentDateTime;
+            this.editForm.get('date')?.setValue(this.currentDateEdit);
             await this.db.object("/notes/"+this.id).update({
                 isEdited: this.editForm.controls["isEdited"].value,
                 date: this.editForm.controls["date"].value,

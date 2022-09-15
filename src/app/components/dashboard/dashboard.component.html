@@ -71,6 +71,16 @@
                             <h4 class="title" style="color:rgb(93, 93, 93);">{{post.title | truncate:28}}</h4>
                             <p class="message">{{post.message | truncate:100}}</p>
                         </div>
+                        <h6 class="comment-count" *ngIf="post.commentCount">
+                            <div class="row">
+                                <div class="my-auto">
+                                    <mat-icon style="font-size:16px!important;">mode_comment</mat-icon>
+                                </div>
+                                <div style="font-size:16px;">
+                                    {{post.commentCount}}
+                                </div>
+                            </div>
+                        </h6>
                     </div> <!-- end card -->
                 </div>
             </a>
@@ -88,6 +98,16 @@
                             <h4 class="title" style="color:rgb(93, 93, 93);">{{post?.title | truncate:28}}</h4>
                             <p class="message">{{post?.message | truncate:100}}</p>
                         </div>
+                        <h6 class="comment-count" *ngIf="post.commentCount">
+                            <div class="row">
+                                <div class="my-auto">
+                                    <mat-icon style="font-size:16px!important;">mode_comment</mat-icon>
+                                </div>
+                                <div style="font-size:16px;">
+                                    {{post.commentCount}}
+                                </div>
+                            </div>
+                        </h6>
                     </div> <!-- end card -->
                 </div>
             </a>

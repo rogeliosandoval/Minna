@@ -41,14 +41,13 @@ export class CreatePost implements OnInit, OnDestroy {
     bgDefaultPost = true;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private db: AngularFireDatabase, private dbservice: DatabaseService, private router: Router, private route: ActivatedRoute, public datepipe: DatePipe) {
-        let currentDateTime = this.datepipe.transform((new Date), 'short');
         this.user = fireAuth.user;
         this.isProgressVisible = false;
         
         this.postForm = new FormGroup({
             'name': new FormControl('', [Validators.required]),
             'email': new FormControl('', [Validators.required]),
-            'date': new FormControl('', [Validators.required]),
+            'date': new FormControl(''),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
             'title': new FormControl('', [Validators.required]),
@@ -56,7 +55,6 @@ export class CreatePost implements OnInit, OnDestroy {
         });
         
         this.firebaseErrorMessage = '';
-        this.currentDate = currentDateTime;
 
     }
 
@@ -86,6 +84,7 @@ export class CreatePost implements OnInit, OnDestroy {
             this.isProgressVisible = true;
             let currentDateTime = this.datepipe.transform((new Date), 'short');
             this.currentDate = currentDateTime;
+            this.postForm.get('date')?.setValue(this.currentDate);
             const ref = this.db.list("posts");
             await ref.push(this.postForm.value);
     
@@ -128,7 +127,6 @@ export class CreatePost implements OnInit, OnDestroy {
             setTimeout(() => {
                 this.postForm.get('name')?.setValue(this.username);
                 this.postForm.get('email')?.setValue(this.email);
-                this.postForm.get('date')?.setValue(this.currentDate);
                 this.postForm.get('color')?.setValue('default');
             }, 1000);
         } catch (error) {

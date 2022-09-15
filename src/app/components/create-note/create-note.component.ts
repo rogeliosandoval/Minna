@@ -37,20 +37,18 @@ export class CreateNote implements OnInit, OnDestroy {
     bgPinkNote = false;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private db: AngularFireDatabase, private dbservice: DatabaseService, private router: Router, private route: ActivatedRoute, public datepipe: DatePipe) {
-        let currentDateTime = this.datepipe.transform((new Date), 'short');
+
         this.user = fireAuth.user;
         this.isProgressVisibleNote = false;
 
         this.noteForm = new FormGroup({
             'name': new FormControl('', [Validators.required]),
             'email': new FormControl('', [Validators.required]),
-            'date': new FormControl('', [Validators.required]),
+            'date': new FormControl(''),
             'title': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
             'message': new FormControl('', [Validators.required])
         })
-        
-        this.currentDate = currentDateTime;
 
     }
     
@@ -71,7 +69,6 @@ export class CreateNote implements OnInit, OnDestroy {
             setTimeout(() => {
                 this.noteForm.get('name')?.setValue(this.username);
                 this.noteForm.get('email')?.setValue(this.email);
-                this.noteForm.get('date')?.setValue(this.currentDate);
                 this.noteForm.get('color')?.setValue('default');
             }, 1000);
         } catch (error) {
@@ -98,6 +95,7 @@ export class CreateNote implements OnInit, OnDestroy {
             this.isProgressVisibleNote = true;
             let currentDateTime = this.datepipe.transform((new Date), 'short');
             this.currentDate = currentDateTime;
+            this.noteForm.get('date')?.setValue(this.currentDate);
             const ref = this.db.list("notes");
             await ref.push(this.noteForm.value);
             setTimeout(() => {

@@ -53,11 +53,14 @@ export class Post implements OnInit, OnDestroy {
     isOwner = false;
     pageLoading = true;
     currentDate: any;
+    currentDateComment: any;
+    currentDateEdit: any;
     p: number = 1;
     currentPage: any;
     searchText = '';
     avatarURL: any;
     showEdit = false;
+    numberOfComments: any;
 
     // colors for the post
     bgBluePost = false;
@@ -83,11 +86,11 @@ export class Post implements OnInit, OnDestroy {
         this.isProgressVisibleDelete = false;
         this.isProgressVisibleComment = false;
         this.isProgressVisibleDeleteComment = false;
-        let currentDateTime = this.datepipe.transform((new Date), 'short');
 
         this.editForm = new FormGroup({
+            'commentCount': new FormControl(''),
             'isEdited': new FormControl('', [Validators.required]),
-            'date': new FormControl('', [Validators.required]),
+            'date': new FormControl(''),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
             'title': new FormControl('', [Validators.required]),
@@ -99,7 +102,7 @@ export class Post implements OnInit, OnDestroy {
             'isOwner': new FormControl(''),
             'name': new FormControl('', [Validators.required]),
             'email': new FormControl('', [Validators.required]),
-            'date': new FormControl('', [Validators.required]),
+            'date': new FormControl(''),
             'id': new FormControl('', [Validators.required]),
             'author': new FormControl('', [Validators.required]),
             'color': new FormControl('', [Validators.required]),
@@ -107,7 +110,6 @@ export class Post implements OnInit, OnDestroy {
         })
 
         this.firebaseErrorMessage = '';
-        this.currentDate = currentDateTime;
 
     }
     
@@ -166,10 +168,14 @@ export class Post implements OnInit, OnDestroy {
                     } else {
                         this.showComments = false;
                     }
+
+                    this.numberOfComments = this.commentData.length;
+                    this.db.object("/posts/"+this.id).update({
+                        commentCount: this.numberOfComments
+                    })
         
                     this.changeColor();
                     this.editForm.get('isEdited')?.setValue(true)
-                    this.editForm.get('date')?.setValue(this.currentDate);
                     this.editForm.get('author')?.setValue(this.postData.author);
                     this.editForm.get('color')?.setValue(this.postData.color);
                     this.editForm.get('title')?.setValue(this.postData.title);
@@ -178,7 +184,6 @@ export class Post implements OnInit, OnDestroy {
                     this.commentForm.get('name')?.setValue(this.name);
                     this.commentForm.get('email')?.setValue(this.email);
                     this.commentForm.get('color')?.setValue('default');
-                    this.commentForm.get('date')?.setValue(this.currentDate);
                     this.commentForm.get('avatarURL')?.setValue(this.avatarURL);
                 } catch (error) {
                     this.errorMessageRefresh = 'Something went wrong. Try refreshing the page.'
@@ -441,7 +446,8 @@ export class Post implements OnInit, OnDestroy {
             }
 
             let currentDateTime = this.datepipe.transform((new Date), 'short');
-            this.currentDate = currentDateTime;
+            this.currentDateComment = currentDateTime;
+            this.commentForm.get('date')?.setValue(this.currentDateComment);
     
             const ref = this.db.list("posts/"+this.id+"/comments");
             await ref.push(this.commentForm.value);
@@ -509,7 +515,8 @@ export class Post implements OnInit, OnDestroy {
             this.fadeEditForm = true;
             this.isProgressVisibleUpdate = true;
             let currentDateTime = this.datepipe.transform((new Date), 'short');
-            this.currentDate = currentDateTime;
+            this.currentDateEdit = currentDateTime;
+            this.editForm.get('date')?.setValue(this.currentDateEdit);
             await this.db.object("/posts/"+this.id).update({
                 isEdited: this.editForm.controls["isEdited"].value,
                 date: this.editForm.controls["date"].value,
