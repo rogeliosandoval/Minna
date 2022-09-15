@@ -61,6 +61,7 @@ export class Post implements OnInit, OnDestroy {
     avatarURL: any;
     showEdit = false;
     numberOfComments: any;
+    showCount = false;
 
     // colors for the post
     bgBluePost = false;
@@ -115,6 +116,7 @@ export class Post implements OnInit, OnDestroy {
     
     ngOnInit(): void {
         try{
+
             this.fireAuth.authState.subscribe(user => {
                 if (user) {
                     let emailLower = user.email?.toLowerCase();
@@ -173,6 +175,7 @@ export class Post implements OnInit, OnDestroy {
                     this.db.object("/posts/"+this.id).update({
                         commentCount: this.numberOfComments
                     })
+                    this.showCount = true;
         
                     this.changeColor();
                     this.editForm.get('isEdited')?.setValue(true)
@@ -185,6 +188,7 @@ export class Post implements OnInit, OnDestroy {
                     this.commentForm.get('email')?.setValue(this.email);
                     this.commentForm.get('color')?.setValue('default');
                     this.commentForm.get('avatarURL')?.setValue(this.avatarURL);
+
                 } catch (error) {
                     this.errorMessageRefresh = 'Something went wrong. Try refreshing the page.'
                     console.log(error);

@@ -82,13 +82,13 @@
         <div class="date">
             <span *ngIf="showEdit">Edited • </span>{{postData?.date | dateAgo}}
         </div>
-        <div class="comment-count">
+        <div class="comment-count" *ngIf="showCount">
             <div class="row">
                 <div class="my-auto">
                     <mat-icon style="font-size:16px!important;">mode_comment</mat-icon>
                 </div>
                 <div style="font-size:16px;">
-                    {{postData?.commentCount}}
+                    {{numberOfComments}}
                 </div>
             </div>
         </div>
