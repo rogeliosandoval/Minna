@@ -613,6 +613,12 @@ export class Post implements OnInit, OnDestroy {
         }
     }
 
+    scroll(el: HTMLElement) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 300)
+    }
+
     logout(): void {
         this.afAuth.logoutUser();
     }

@@ -430,10 +430,6 @@ h6, .h6 {
     transition: 0.2s linear;
 }
 
-.content-card:hover {
-    transform: scale(1.1);
-}
-
 a:hover, a:focus {
     text-decoration: none;
 }
@@ -556,6 +552,10 @@ a:hover, a:focus {
     .box {
         width: 60%;
         margin: auto;
+    }
+
+    .content-card:hover {
+        transform: scale(1.1);
     }
     
     .modal-container {

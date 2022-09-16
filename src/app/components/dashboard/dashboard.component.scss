@@ -352,10 +352,6 @@ h6, .h6 {
     transition: 0.2s linear;
 }
 
-.content-card:hover {
-    transform: scale(1.1);
-}
-
 a:hover, a:focus {
     text-decoration: none;
 }
@@ -498,6 +494,10 @@ a:hover, a:focus {
         margin-top: -9px;
     }
 
+    .content-card:hover {
+        transform: scale(1.1);
+    }
+
     input{
         color: black;
         font-size: 20px;
@@ -513,6 +513,10 @@ a:hover, a:focus {
         flex-grow: 1;
         background:rgba(255, 255, 255, 0.52);
         transition: 0.5s linear;
+    }
+
+    .custom-container, .container {
+        overflow-x: visible;
     }
 
     .notif-container {

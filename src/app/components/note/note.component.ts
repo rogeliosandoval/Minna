@@ -374,6 +374,12 @@ export class Note implements OnInit, OnDestroy {
         }
     }
 
+    scroll(el: HTMLElement) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 300)
+    }
+
     openNotification() {
         this.showNotif = true;
     }
