@@ -9,6 +9,7 @@ import { DatabaseService } from "src/app/services/database.service";
 import { AuthService } from "src/app/services/auth.service";
 import { DatePipe } from '@angular/common';
 import { HotToastService } from "@ngneat/hot-toast";
+import { IPost } from "src/app/models/IPost";
 
 @Component({
     selector: 'note',
@@ -44,6 +45,12 @@ export class Note implements OnInit, OnDestroy {
     searchText = '';
     avatarURL: any;
     showEdit = false;
+    notification = false;
+    new: IPost[] = [];
+    postData: IPost[] = [];
+    userData: IPost[] = [];
+    showNotif = false;
+    username: any;
 
     // colors for the post
     bgBluePost = false;
@@ -82,15 +89,30 @@ export class Note implements OnInit, OnDestroy {
                     this.name = user.displayName;
                     this.email = user.email;
                     this.avatarURL = user.photoURL;
+                    this.username = user.displayName;
                 }
             })
 
             this.postSubscription = this.dbservice.getNotesById(this.id).subscribe(data => {
                 this.noteData = data;
             })
+
+            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                this.postData = data;
+            });
     
             setTimeout(() => {
                 try{
+
+                    this.userData = this.postData.filter(data => data.name === this.username);
+
+                    this.new = this.userData.filter(data => data.newComment === true)
+        
+                    if(this.new.length > 0) {
+                        this.notification = true;
+                    } else {
+                        this.notification = false;
+                    }
 
                     if (this.noteData.isEdited === true) {
                         this.showEdit = true;
@@ -350,6 +372,14 @@ export class Note implements OnInit, OnDestroy {
             this.errorMessageDelete = 'Something went wrong, try again.'
             console.log(error);
         }
+    }
+
+    openNotification() {
+        this.showNotif = true;
+    }
+
+    closeNotification() {
+        this.showNotif = false;
     }
 
     logout(): void {

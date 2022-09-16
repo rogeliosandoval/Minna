@@ -5,6 +5,7 @@ import { Observable, Subscription, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service'
 import { DatabaseService } from "src/app/services/database.service";
 import { INote } from "src/app/models/INote";
+import { IPost } from "src/app/models/IPost";
 import { HotToastService } from '@ngneat/hot-toast';
 import { Router, ActivatedRoute} from "@angular/router";
 
@@ -27,6 +28,11 @@ export class Notebook implements OnInit, OnDestroy {
     p: number = 1;
     currentPage: any;
     searchText = '';
+    notification = false;
+    new: IPost[] = [];
+    postData: IPost[] = [];
+    userData: IPost[] = [];
+    showNotif = false;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private dbservice: DatabaseService, private route: ActivatedRoute, private router: Router, private toast: HotToastService) {
         this.user = fireAuth.user;
@@ -45,6 +51,10 @@ export class Notebook implements OnInit, OnDestroy {
                 }
                 
             });
+
+            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                this.postData = data;
+            });
             
             this.postSubscription = this.dbservice.getNotes().subscribe(data => {
                 this.noteData = data.reverse();
@@ -52,6 +62,17 @@ export class Notebook implements OnInit, OnDestroy {
     
             setTimeout(() => {
                 this.pageLoading = false;
+
+                this.userData = this.postData.filter(data => data.name === this.username);
+
+                this.new = this.userData.filter(data => data.newComment === true)
+    
+                if(this.new.length > 0) {
+                    this.notification = true;
+                } else {
+                    this.notification = false;
+                }
+
                 this.userNoteData = this.noteData.filter(data => data.name === this.username);
                 if (this.userNoteData.length === 0){
                     this.showAdd = true;
@@ -73,6 +94,14 @@ export class Notebook implements OnInit, OnDestroy {
     onPageChange(page: number) {
         this.currentPage = page;
         window.scrollTo(0,0);
+    }
+
+    openNotification() {
+        this.showNotif = true;
+    }
+
+    closeNotification() {
+        this.showNotif = false;
     }
 
     logout(): void {
