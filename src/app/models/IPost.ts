@@ -1,4 +1,5 @@
 export interface IPost {
+    newComment?: boolean;
     commentCount?: number;
     isEdited?: boolean;
     id?: string;
