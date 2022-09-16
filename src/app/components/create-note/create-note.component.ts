@@ -8,6 +8,7 @@ import { DatabaseService } from "src/app/services/database.service";
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
+import { IPost } from "src/app/models/IPost";
 
 @Component({
     selector: 'create-note',
@@ -27,6 +28,11 @@ export class CreateNote implements OnInit, OnDestroy {
     modalSuccess = false;
     errorMessageNote: any;
     currentDate: any;
+    notification = false;
+    new: IPost[] = [];
+    postData: IPost[] = [];
+    userData: IPost[] = [];
+    showNotif = false;
 
     // Note colors
     bgDefaultNote = true;
@@ -65,11 +71,25 @@ export class CreateNote implements OnInit, OnDestroy {
                 }
                 
             });
+
+            this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+                this.postData = data;
+            });
     
             setTimeout(() => {
                 this.noteForm.get('name')?.setValue(this.username);
                 this.noteForm.get('email')?.setValue(this.email);
                 this.noteForm.get('color')?.setValue('default');
+
+                this.userData = this.postData.filter(data => data.name === this.username);
+
+                this.new = this.userData.filter(data => data.newComment === true)
+    
+                if(this.new.length > 0) {
+                    this.notification = true;
+                } else {
+                    this.notification = false;
+                }
             }, 1000);
         } catch (error) {
             console.log(error);
@@ -178,6 +198,14 @@ export class CreateNote implements OnInit, OnDestroy {
         this.bgRedNote = false;
         this.bgBlueNote = false;
         this.bgGreyNote = false;
+    }
+
+    openNotification() {
+        this.showNotif = true;
+    }
+
+    closeNotification() {
+        this.showNotif = false;
     }
 
     logout(): void {
