@@ -234,6 +234,38 @@
     transform: translate(-1.5rem, 1rem);
 }
 
+.red-circle {
+    position:absolute;
+    top:-7px;
+    right:-5px;
+    width:18px;
+    height:18px;
+    background:red;
+    border-radius:50%;
+    -webkit-animation: fadeInAndOut 1s infinite;
+    -moz-animation: fadeInAndOut 1s infinite;
+    animation: fadeInAndOut 1s infinite;
+}
+
+//fades in
+@-webkit-keyframes fadeInAndOut {
+    0% { opacity: 0.5; }
+    50% { opacity: 1 }
+    100% { opacity: 0.5; }
+}
+
+@-moz-keyframes fadeInAndOut {
+    0% { opacity: 0.5; }
+    50% { opacity: 1 }
+    100% { opacity: 0.5; }
+}
+
+@keyframes fadeInAndOut {
+    0% { opacity: 0.5; }
+    50% { opacity: 1 }
+    100% { opacity: 0.5; }
+}
+
 button {
     font-size: 22px;
 }

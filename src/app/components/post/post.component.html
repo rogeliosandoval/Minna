@@ -75,7 +75,13 @@
                   <mat-icon>logout</mat-icon>
                   <span>Log out</span>
                 </button>
-              </div>
+            </div>
+            <!-- <div class="m-2" *ngIf="(fireAuth.user | async)">
+                <button mat-raised-button color="primary" style="position:relative;">
+                  <mat-icon>notifications</mat-icon>
+                  <div class="red-circle" *ngIf="notification"></div>
+                </button>
+            </div> -->
         </div>
     </div>
     <div class="box-container mt-3" [ngClass]="{ fade: fadePost, blue: bgBluePost, green: bgGreenPost, yellow: bgYellowPost, brown: bgBrownPost, purple: bgPurplePost, pink: bgPinkPost, grey: bgGreyPost, red: bgRedPost, default: bgDefaultPost }">

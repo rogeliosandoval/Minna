@@ -8,6 +8,7 @@ import { Observable, Subscription } from "rxjs";
 import { DatabaseService } from "src/app/services/database.service";
 import { AuthService } from "src/app/services/auth.service";
 import { IComment } from "src/app/models/IComment";
+import { IPost } from "src/app/models/IPost";
 import { DatePipe } from '@angular/common';
 import { HotToastService } from '@ngneat/hot-toast';
 
@@ -62,6 +63,11 @@ export class Post implements OnInit, OnDestroy {
     showEdit = false;
     numberOfComments: any;
     showCount = false;
+    // notification = false;
+    // new: IPost[] = [];
+    // postDataAll: IPost[] = [];
+    // userData: IPost[] = [];
+    // username: any;
 
     // colors for the post
     bgBluePost = false;
@@ -89,6 +95,7 @@ export class Post implements OnInit, OnDestroy {
         this.isProgressVisibleDeleteComment = false;
 
         this.editForm = new FormGroup({
+            'newComment': new FormControl(''),
             'commentCount': new FormControl(''),
             'isEdited': new FormControl('', [Validators.required]),
             'date': new FormControl(''),
@@ -124,12 +131,17 @@ export class Post implements OnInit, OnDestroy {
                     this.name = user.displayName;
                     this.email = user.email;
                     this.avatarURL = user.photoURL;
+                    // this.username = user.displayName;
                 }
             })
             
             this.postSubscription = this.dbservice.getPostById(this.id).subscribe(data => {
                 this.postData = data;
             })
+
+            // this.postSubscription = this.dbservice.getPosts().subscribe(data => {
+            //     this.postDataAll = data;
+            // });
     
             this.postSubscription = this.dbservice.getComments(this.id).subscribe(data => {
                 this.commentData = data.reverse();
@@ -143,6 +155,9 @@ export class Post implements OnInit, OnDestroy {
                     if (this.postData.name === this.name) {
                         this.modifyPost = true;
                         this.isOwner = true;
+                        this.db.object("/posts/"+this.id).update({
+                            newComment: false
+                        })
                     } else {
                         this.modifyPost = false;
                         this.isOwner = false;
@@ -153,6 +168,16 @@ export class Post implements OnInit, OnDestroy {
 
                     //     }
                     // })
+
+                    // this.userData = this.postDataAll.filter(data => data.name === this.username);
+
+                    // this.new = this.userData.filter(data => data.newComment === true)
+
+                    // if(this.new.length > 0) {
+                    //     this.notification = true;
+                    // } else {
+                    //     this.notification = false;
+                    // }
         
                     this.currentUserComments = this.commentData.map(comment=> {
                         comment.canModify = (comment.name === this.name);
@@ -452,6 +477,10 @@ export class Post implements OnInit, OnDestroy {
             let currentDateTime = this.datepipe.transform((new Date), 'short');
             this.currentDateComment = currentDateTime;
             this.commentForm.get('date')?.setValue(this.currentDateComment);
+
+            this.db.object("/posts/"+this.id).update({
+                newComment: true
+            })
     
             const ref = this.db.list("posts/"+this.id+"/comments");
             await ref.push(this.commentForm.value);

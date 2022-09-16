@@ -29,6 +29,9 @@ export class Profile implements OnInit, OnDestroy {
     searchText = '';
     userAvatar: any;
     changeAvatar = false;
+    notification = false;
+    new: IPost[] = [];
+    showNotif = false;
 
     avatars = [
         {'path':'assets/avatars/penguin.svg'},
@@ -88,12 +91,20 @@ export class Profile implements OnInit, OnDestroy {
             })
     
             setTimeout(() => {
+                
                 this.pageLoading = false;
                 this.userData = this.postData.filter(data => data.name === this.username);
                 if (this.userData.length === 0){
                     this.showAdd = true;
                 } else {
                     this.showPosts = true;
+                }
+                this.new = this.userData.filter(data => data.newComment === true)
+
+                if(this.new.length > 0) {
+                    this.notification = true;
+                } else {
+                    this.notification = false;
                 }
             }, 600);
         } catch (error) {
@@ -142,6 +153,14 @@ export class Profile implements OnInit, OnDestroy {
     onPageChange(page: number) {
         this.currentPage = page;
         window.scrollTo(0,0);
+    }
+
+    openNotification() {
+        this.showNotif = true;
+    }
+
+    closeNotification() {
+        this.showNotif = false;
     }
 
     logout(): void {
