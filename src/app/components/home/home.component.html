@@ -1,6 +1,35 @@
 <div class="image-one d-none d-lg-block">
   <img class="clipart-one" src="../../../assets/thought.svg" alt="clipart">
 </div>
+<div class="notif-modal" *ngIf="showNotif">
+  <div class="notif-container">
+      <div class="mt-4 pl-3">
+          <button class="float-left" (click)="closeNotification()" mat-raised-button color="primary" style="background-color:rgb(255, 49, 49) !important; color:white;">
+              <mat-icon>close</mat-icon>
+          </button>
+          <div class="bodyText text-center pt-2">
+            Notifications
+          </div>
+      </div>
+      <div class="notif-content">
+        <div *ngIf="notification">
+          <div class="notif-post bodyText text-center p-2 my-4" style="background:white; border-radius:15px;" *ngFor="let post of new">
+            <a routerLink="/posts/{{post.id}}" style="text-decoration:none;">
+              <div style="color:green;">
+                You got a new comment!
+              </div>
+              <div style="font-size:17px; color:black;">
+                {{post.title}}
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="bodyText no-notif" *ngIf="!notification">
+          no new notifications... yet
+        </div>
+      </div>
+  </div>
+</div>
 <div class="custom-container">
   <div class="row mb-4 my-lg-0">
     <div class="col-lg-6">
@@ -31,6 +60,12 @@
         <button mat-raised-button color="primary" (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Log out</span>
+        </button>
+      </div>
+      <div class="m-2" *ngIf="(fireAuth.user | async)">
+        <button mat-raised-button color="primary" style="position:relative;" (click)="openNotification()">
+          <mat-icon>notifications</mat-icon>
+          <div class="red-circle" *ngIf="notification"></div>
         </button>
       </div>
     </div>
@@ -72,7 +107,6 @@
     </div>
   </div>
 </div>
-
 <div class="container mt-5 mb-0 my-lg-5">
   <div class="titleText text-center my-3">
     ONE DAY AT A TIME

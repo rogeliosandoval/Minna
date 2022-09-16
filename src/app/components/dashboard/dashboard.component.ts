@@ -26,6 +26,10 @@ export class Dashboard implements OnInit, OnDestroy {
     keysToExclude: any [] = [null];
     postsExist = false;
     showAdd = false;
+    notification = false;
+    new: IPost[] = [];
+    userData: IPost[] = [];
+    showNotif = false;
 
     constructor(public fireAuth: AngularFireAuth, public afs: AngularFirestore, private afAuth: AuthService, private dbservice: DatabaseService) {
         this.user = fireAuth.user;
@@ -48,6 +52,16 @@ export class Dashboard implements OnInit, OnDestroy {
                 });
                 
                 setTimeout(() => {
+                    this.userData = this.postData.filter(data => data.name === this.username);
+
+                    this.new = this.userData.filter(data => data.newComment === true)
+        
+                    if(this.new.length > 0) {
+                        this.notification = true;
+                    } else {
+                        this.notification = false;
+                    }
+                    
                     this.pageLoadingTwo = false;
                     if (this.postData.length === 0){
                         this.showAdd = true;
@@ -62,6 +76,14 @@ export class Dashboard implements OnInit, OnDestroy {
             console.log(error);
         }
         
+    }
+
+    openNotification() {
+        this.showNotif = true;
+    }
+
+    closeNotification() {
+        this.showNotif = false;
     }
 
     // scrolls user back to the top on pagination change
