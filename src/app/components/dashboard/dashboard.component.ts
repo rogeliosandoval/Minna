@@ -68,7 +68,7 @@ export class Dashboard implements OnInit, OnDestroy {
                     } else {
                         this.postsExist = true;
                     }
-                }, 600);
+                }, 1000);
                 
             });
             
