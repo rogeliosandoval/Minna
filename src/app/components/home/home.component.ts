@@ -5,6 +5,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { Observable, Subscription } from 'rxjs';
 import { DatabaseService } from "src/app/services/database.service";
 import { IPost } from "src/app/models/IPost";
+import { IComment } from "src/app/models/IComment";
 
 
 @Component({
@@ -19,7 +20,6 @@ export class Home implements OnInit {
     username: any;
     postSubscription!: Subscription;
     postData: IPost[] = [];
-    commentData: any;
     notification = false;
     new: IPost[] = [];
     userData: IPost[] = [];
@@ -55,6 +55,10 @@ export class Home implements OnInit {
 
         }, 600)
     }
+
+    // test() {
+    //     console.log(this.postData);
+    // }
 
     openNotification() {
         this.showNotif = true;
