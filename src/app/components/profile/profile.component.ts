@@ -81,7 +81,6 @@ export class Profile implements OnInit, OnDestroy {
                     this.user = this.afs.collection('users').doc(emailLower).valueChanges();
                     this.username = user.displayName;
                     this.userAvatar = user.photoURL;
-                    console.log(user);
                 }
                 
             });

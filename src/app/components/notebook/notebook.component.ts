@@ -77,6 +77,7 @@ export class Notebook implements OnInit, OnDestroy {
                 if (this.userNoteData.length === 0){
                     this.showAdd = true;
                 } else {
+                    this.noteData = this.userNoteData;
                     this.showNotes = true;
                 }
             }, 600);
