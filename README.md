@@ -14,7 +14,10 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg" width="60px;"/>
 <br>
 <br>
-A social platform that allows users to create posts about any topic they choose. Anonymous options are available when creating posts as well as posting comments. A personal notebook is provided with every account for simple note taking if desired.
+One of my very first CRUD projects that taught me a lot!
+<br>
+<br>
+Minna is a social platform that allows users to create posts about any topic they choose. Anonymous options are available when creating posts as well as posting comments. A personal notebook is provided with every account for simple note taking if desired.
 <br>
 <br>
 The proprietary feature I was going for here was to be able to stay anonymous while still getting to interact with other users and their posts. Profiles are private as of now but plans to make them public will be coming in a future update.
