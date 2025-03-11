@@ -26,10 +26,10 @@ The proprietary feature I was going for here was to be able to stay anonymous wh
 You can also use this application for simple note taking if you don't really want to share anything with other users.
 <br>
 <br>
-<b>This isn't a production ready product so please feel free to mess around with it as much as you like.</b>
+<b>This isn't a production ready product so please feel free to mess around with it as much as you'd like.</b>
 <br>
 <br>
-<b>Thank you!</b>
+Thank you!
 <br>
 <br>
 <img src="minna.gif" alt="minna" width="100%" height="auto">
