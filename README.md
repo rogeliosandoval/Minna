@@ -23,7 +23,11 @@ Minna is a social platform that allows users to create posts about any topic the
 The proprietary feature I was going for here was to be able to stay anonymous while still getting to interact with other users and their posts. Profiles are private as of now but plans to make them public will be coming in a future update.
 <br>
 <br>
-You can also use this application for simple note taking if you don't really want to share anything with other users. This isn't a production ready product so please feel free to mess around with it as much as you like.
+You can also use this application for simple note taking if you don't really want to share anything with other users.
+<br>
+<br>
+<b>This isn't a production ready product so please feel free to mess around with it as much as you like.</b>
+<br>
 <br>
 <b>Thank you!</b>
 <br>
